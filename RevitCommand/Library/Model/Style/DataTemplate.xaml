@@ -1,0 +1,204 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:c="clr-namespace:Model.Control">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="TextBox.xaml" />
+        <ResourceDictionary Source="CheckBox.xaml" />
+        <ResourceDictionary Source="Button.xaml" />
+        <ResourceDictionary Source="ComboBox.xaml" />
+        <ResourceDictionary Source="ListView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="categories">
+        <Border CornerRadius="3" BorderBrush="Gray" Background="LightGray" BorderThickness="1" Margin="1 0 0 0">
+            <StackPanel Orientation="Horizontal" Background="AliceBlue">
+                <c:FilteredComboBox Margin="1 0 0 0" Width="98" IsEditable="True" DisplayMemberPath="Name" IsTextSearchEnabled="False" 
+                                ItemsSource="{Binding EntCategoryTypeViews}" SelectedItem="{Binding SelectedEntCategoryTypeView}"></c:FilteredComboBox>
+                <c:CrossButton Margin="2 5 5 5" Width="12">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Delete}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </c:CrossButton>
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="categoryLevels">
+        <Grid Margin="5 3 5 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="NHÓM:" FontWeight="DemiBold" VerticalAlignment="Center"></Label>
+            <GroupBox Grid.Column="1" Margin="10 0 0 0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Margin="0 8 0 0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Categories:" FontWeight="DemiBold" Width="80"></Label>
+                            <ListView Style="{StaticResource lv_Horizontal}" Grid.Column="1" ItemsSource="{Binding CategoryBindingViews}" ItemTemplate="{StaticResource categories}"/>
+                            <Button Grid.Column="2" Style="{StaticResource ImageButton}" Width="25" Height="25" Margin="5 0 0 0">
+                                <Image Margin="1" Source="/Central.App;component/Image/plus.png"></Image>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding AddCategoryBinding}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="0 8 0 0" DataContext="{Binding EntPairLevelView}">
+                            <Label Content="From Level:" FontWeight="DemiBold"></Label>
+                            <c:FilteredComboBox Margin="10 0 0 0" Width="120" DisplayMemberPath="Name"
+                                        ItemsSource="{Binding FromEntLevels}" SelectedItem="{Binding SelectedFromEntLevel}"></c:FilteredComboBox>
+
+                            <Label Content="To Level:" FontWeight="DemiBold" Margin="25 0 0 0"></Label>
+                            <c:FilteredComboBox Margin="10 0 0 0" Width="120" DisplayMemberPath="Name"
+                                        ItemsSource="{Binding ToEntLevels}" SelectedItem="{Binding SelectedToEntLevel}"></c:FilteredComboBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <c:CrossButton Grid.Column="1" Width="20" Height="20" Margin="8 0 3 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Delete}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </c:CrossButton>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="massType_CategoryLevels">
+        <GroupBox Margin="2 8 2 2">
+            <StackPanel Orientation="Vertical" Margin="2">
+                <Grid Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="Công tác:" FontWeight="DemiBold"></Label>
+                        <c:FilteredComboBox Margin="10 0 0 0" Width="170" DisplayMemberPath="Name"
+                                                    ItemsSource="{Binding MassTypeViews}" SelectedItem="{Binding SelectedMassTypeView}"></c:FilteredComboBox>
+
+                        <Button Height="25" Margin="10 0 0 0" Background="#FF032A6F" BorderThickness="0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1" Source="/Central.App;component/Image/plus.png"></Image>
+                                <TextBlock Text="PHÂN NHÓM" VerticalAlignment="Center" Foreground="White" Padding="5 3 3 3"></TextBlock>
+                            </StackPanel>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AddCategoryLevelBinding}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+
+                    <c:CrossButton Grid.Column="1" Width="20" Height="20" Margin="0 0 7 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Delete}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </c:CrossButton>
+                </Grid>
+
+
+                <StackPanel Orientation="Vertical" Margin="10 8 0 0">
+                    <ListView ItemsSource="{Binding CategoryLevelBindingViews}" ItemTemplate="{StaticResource categoryLevels}" MaxHeight="300"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="massResultView">
+        <Grid Visibility="{Binding Visibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Width="{Binding TitleWidth}">
+                <Button Height="{Binding ImageHeight}" Grid.Column="2" BorderThickness="0" Style="{StaticResource ImageButton}" VerticalAlignment="Center"
+                                                                                    Margin="{Binding Margin}" IsHitTestVisible="{Binding IsHitTestVisible}">
+                    <Image Source="{Binding ImageSource}"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Toggle}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Label Content="{Binding Prefix}" FontWeight="DemiBold" Margin="8 0 0 0"/>
+                <Label Content="{Binding Name}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Width="{Binding ValueWidth}" Margin="30 0 0 0">
+                <Label Content="Khối lượng: " FontWeight="DemiBold"/>
+                <Label Content="{Binding ValueString}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Width="{Binding ValueWidth}" Margin="20 0 0 0">
+                <Button Height="20" BorderThickness="0" Style="{StaticResource ImageButton}">
+                    <Image Margin="1" Source="/Central.App;component/Image/search.png"></Image>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Search}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                
+                <Button Height="20" BorderThickness="0" Style="{StaticResource ImageButton}" Margin="10 0 0 0">
+                    <Image Margin="1" Source="/Central.App;component/Image/delete.png"></Image>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Delete}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="massTypeView_MassResultViews">
+        <StackPanel Orientation="Vertical" Margin="10 3 0 0">
+            <StackPanel Orientation="Horizontal" Margin="10 5 0 0">
+                <Label Content=" - CÔNG TÁC: " FontWeight="DemiBold" FontSize="14"/>
+                <Label Content="{Binding MassTypeView.Name}" FontStyle="Italic" FontSize="14"/>
+            </StackPanel>
+            <Grid Margin="10 2 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="260"/>
+                    <ColumnDefinition Width="auto" MinWidth="120"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <ListView ItemsSource="{Binding MassResultViews}" ItemTemplate="{StaticResource massResultView}">
+                </ListView>
+            </Grid>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="entPackageResultView">
+        <StackPanel Orientation="Vertical" Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="GÓI THẦU: " FontWeight="DemiBold" FontSize="16"></Label>
+                <Label Content="{Binding Name}" FontStyle="Italic" FontSize="16"></Label>
+            </StackPanel>
+            <ListView ItemsSource="{Binding MassTypeView_MassResultViewsBindings}" 
+                                              ItemTemplate="{StaticResource massTypeView_MassResultViews}">
+            </ListView>
+        </StackPanel>
+    </DataTemplate>
+    
+</ResourceDictionary>
+    

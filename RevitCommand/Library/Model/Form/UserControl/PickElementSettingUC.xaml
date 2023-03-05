@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Model.UserControl.PickElementSettingUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:uc="clr-namespace:Model.UserControl"
+             xmlns:local="clr-namespace:Model.UserControl"
+        xmlns:c="clr-namespace:Model.Control" mc:Ignorable="d"
+             x:Name="root" 
+             Visibility="{Binding Visibility}">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/HBRevitApp;component/Library/Model/Style/Styles.xaml" />
+    </UserControl.Resources>
+    <GroupBox>
+        <GroupBox.Header>
+            <TextBlock Text="Chọn đối tượng" FontWeight="DemiBold"/>
+        </GroupBox.Header>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Margin="3 5 3 3" Grid.Column="0">
+                <RadioButton Content="Tất cả đối tượng" IsChecked="{Binding PickByEntireProject}" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                <RadioButton Content="Đối tượng trong View" Margin="0 10 0 0" IsChecked="{Binding PickByView}" HorizontalAlignment="Left"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0 7 0 0" Visibility="{Binding PickElementsInProject_Visibility}">
+                    <RadioButton Content="Chọn đối tượng" IsChecked="{Binding PickElementsInProject}"/>
+
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding PickElementsVisibility}">
+                        <Button Height="20" Margin="5 0 2 0" Style="{StaticResource ImageButton}"
+                                IsEnabled="{Binding PickElementEnable}">
+                            <Image  Source="/HBRevitApp;component/Library/Image/select_3.png"></Image>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding PickElements}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <TextBlock Text="Tổng số:" FontWeight="DemiBold" VerticalAlignment="Center" Margin="15 0 0 0"/>
+                        <TextBox Margin="5 0 0 0" Width="50" Text="{Binding Count}" IsReadOnly="True" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
+</UserControl>

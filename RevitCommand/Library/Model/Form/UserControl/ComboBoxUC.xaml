@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Model.UserControl.ComboBoxUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:uc="clr-namespace:Model.UserControl"
+             xmlns:local="clr-namespace:Model.UserControl"
+        xmlns:c="clr-namespace:Model.Control" mc:Ignorable="d"
+             x:Name="root">
+    <Grid Background="AliceBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <c:FilteredComboBox MinWidth="90"
+                            ItemsSource="{Binding ItemsSource, ElementName=root}"
+                            SelectedItem="{Binding SelectedItem, ElementName=root}"
+                            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, ElementName=root}"
+                            DisplayMemberPath="{Binding DisplayMemberPath, ElementName=root}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <c:CrossButton Margin="3 0 4 0" Width="14" Height="14"
+                           IsEnabled="{Binding DeleteEnable,ElementName=root}"
+                        Visibility="{Binding DeleteVisibility, ElementName=root}"
+                       Command="{Binding DeleteItem, ElementName=root}"/>
+            <c:PlusButton Margin="3 0 4 0" Width="16" Height="16" 
+                          IsEnabled="{Binding AddEnable,ElementName=root}"
+                        Visibility="{Binding AddVisibility, ElementName=root}"
+                       Command="{Binding AddItem, ElementName=root}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
