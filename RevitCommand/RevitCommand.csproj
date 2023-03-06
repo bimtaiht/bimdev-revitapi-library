@@ -1,11 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Platforms>x64;AnyCPU</Platforms>
+		<PackageId>$(ProductName)</PackageId>
+		<Version></Version>
+		<Authors>$(Authors)</Authors>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug 2020|x64'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 	</PropertyGroup>
 	<Import Project="$(SolutionDir)CommonProjectProperties.prop" />
+	<ItemGroup>
+	  <Compile Remove="0.Command\Model\**" />
+	  <EmbeddedResource Remove="0.Command\Model\**" />
+	  <None Remove="0.Command\Model\**" />
+	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Library\Image\addsub.png" />
 		<None Remove="Library\Image\add_2.png" />
@@ -278,11 +286,7 @@
 		</Resource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="0.Command\Model\" />
-	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)$(ProjectName)_$(ConfigurationName).dll&quot;" />
+		<Exec Command="copy /Y &quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;$(TargetDir)$(AssemblyName)_$(ConfigurationName).dll&quot;" />
 	</Target>
 </Project>
