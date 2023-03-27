@@ -28,7 +28,7 @@ namespace Model.Entity
                 return unitType.Value;
             }
         }
-#elif (REVIT2021_OR_GREATER)
+#elif (REVIT2022_OR_LESS)
 #pragma warning disable CS0618 // Type or member is obsolete
         private ParameterType? parameterType;
         public ParameterType ParameterType => parameterType ??= this.GetParameterType();

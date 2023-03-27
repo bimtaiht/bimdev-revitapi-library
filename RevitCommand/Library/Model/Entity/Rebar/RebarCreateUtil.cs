@@ -53,7 +53,7 @@ namespace Utility
         {
 #if (REVIT2021_OR_LESS)
             return rebarCreate.BarType!.BarDiameter;
-#elif (REVIT2022_OR_LESS)
+#else
             return rebarCreate.BarType!.BarModelDiameter;
 #endif
         }
@@ -63,7 +63,7 @@ namespace Utility
             return rebarData.RebarBarTypes.FirstOrDefault(x =>
 #if (REVIT2021_OR_LESS)
             x.BarDiameter
-#elif (REVIT2022_OR_LESS)
+#else
             x.BarModelDiameter
 #endif
 
@@ -105,7 +105,9 @@ namespace Utility
                 if (view3D != null)
                 {
                     rebar.SetUnobscuredInView(view3D, true);
+#if (REVIT2022_OR_LESS)
                     rebar.SetSolidInView(view3D, true);
+#endif
                 }
             }
 

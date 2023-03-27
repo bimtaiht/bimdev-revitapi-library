@@ -104,7 +104,7 @@ namespace Utility
         {
             return entParam.RevitParameter!.Definition.UnitType;
         }
-#elif (REVIT2021_OR_GREATER)
+#elif (REVIT2022_OR_LESS)
 #pragma warning disable CS0618 // Type or member is obsolete
         public static ParameterType GetParameterType(this EntParameter entParam)
         {
@@ -142,7 +142,7 @@ namespace Utility
                     unit = ValueUnit.kg;
                     break;
             }
-#elif (REVIT2021_OR_GREATER)
+#elif (REVIT2022_OR_LESS)
 #pragma warning disable CS0618 // Type or member is obsolete
             switch (entParam.ParameterType)
             {
@@ -160,6 +160,24 @@ namespace Utility
                     break;
             }
 #pragma warning restore CS0618 // Type or member is obsolete
+#else
+            var valueType = entParam.RevitParameter!.Definition.GetDataType().TypeId;
+            if (valueType.Contains("length"))
+            {
+                unit = ValueUnit.m;
+            }
+            else if (valueType.Contains("area"))
+            {
+                unit = ValueUnit.m2;
+            }
+            else if (valueType.Contains("volume"))
+            {
+                unit = ValueUnit.m3;
+            }
+            else if (valueType.Contains("mass"))
+            {
+                unit = ValueUnit.m3;
+            }
 #endif
 
             return unit!;
