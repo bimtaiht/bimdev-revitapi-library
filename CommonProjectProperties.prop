@@ -90,4 +90,10 @@
     <PropertyGroup Condition="2022 &gt;= $(RevitVersion)">
         <DefineConstants>$(DefineConstants);REVIT2022_OR_LESS</DefineConstants>
     </PropertyGroup>
+	<PropertyGroup Condition="2023 &lt;= $(RevitVersion)">
+        <DefineConstants>$(DefineConstants);REVIT2023_OR_GREATER</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="2023 &gt;= $(RevitVersion)">
+        <DefineConstants>$(DefineConstants);REVIT2023_OR_LESS</DefineConstants>
+    </PropertyGroup>
 </Project>
