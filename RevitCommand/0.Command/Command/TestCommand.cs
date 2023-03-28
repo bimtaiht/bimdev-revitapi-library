@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
+using Model.Form;
 
 namespace Model.RevitCommand
 {
@@ -8,7 +9,11 @@ namespace Model.RevitCommand
     {
         public override void Execute()
         {
+            var form = new Form.Form();
+            form.ShowDialog();
 
+            //var form = new Form.FormTemplate();
+            //form.ShowDialog();
         }
     }
 }
