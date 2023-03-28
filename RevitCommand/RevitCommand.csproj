@@ -176,6 +176,7 @@
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
+		<Reference Include="PresentationFramework.Aero, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
 		<Reference Include="System.ComponentModel.Composition" />
 		<Reference Include="System.Data.DataSetExtensions" />
 		<Reference Include="System.IO" />
@@ -258,10 +259,6 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 			<Generator>XamlIntelliSenseFileGenerator</Generator>
 		</Page>
-		<Page Include="Library\Model\Style\Styles.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
 		<Page Include="Library\Model\Style\TextBox.xaml">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 			<Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -284,6 +281,15 @@
 		<Resource Include="Library\Image\view.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Library\Model\Style\MultiComboBox.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="Library\Model\Style\Styles.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

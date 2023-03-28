@@ -8,6 +8,7 @@
         <ResourceDictionary Source="CheckBox.xaml" />
         <ResourceDictionary Source="RadioButton.xaml" />
         <ResourceDictionary Source="Button.xaml" />
+        <ResourceDictionary Source="MultiComboBox.xaml" />
         <ResourceDictionary Source="ComboBox.xaml" />
         <ResourceDictionary Source="ListView.xaml" />
         <ResourceDictionary Source="DataTemplate.xaml" />
