@@ -52,8 +52,6 @@
 		<None Remove="Library\Image\top-arrow.png" />
 		<None Remove="Library\Image\unpinned.png" />
 		<None Remove="Library\Image\view.png" />
-		<None Remove="Library\Model\Style\MultiComboBox.xaml" />
-		<None Remove="Library\Model\Style\Styles.xaml" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Library\Image\addsub.png">
@@ -170,6 +168,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Reference Include="BIMDev.ControlLibrary">
+		  <HintPath>..\lib\BIMDev.ControlLibrary.dll</HintPath>
+		  <CopyLocal>True</CopyLocal>
+		</Reference>
+		<Reference Include="Control.Library">
+		  <HintPath>..\Control.Library\bin\x64\Release 2023\net48\Control.Library.dll</HintPath>
+		</Reference>
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
@@ -219,58 +224,6 @@
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		  <SubType>Designer</SubType>
 		  <Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Form\Base\FormTemplate.xaml">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		  <Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Form\UserControl\ComboBoxUC.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Form\UserControl\PickElementSettingUC.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Form\UserControl\ProgressUC.xaml">
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Page>
-		<Page Include="Library\Model\Style\Button.xaml">
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Page>
-		<Page Include="Library\Model\Style\CheckBox.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Style\Combobox.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Style\DataTemplate.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Style\ListView.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Style\MultiComboBox.xaml">
-		  <Generator>XamlIntelliSenseFileGenerator</Generator>
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Page>
-		<Page Include="Library\Model\Style\RadioButton.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
-		<Page Include="Library\Model\Style\Styles.xaml">
-		  <Generator>XamlIntelliSenseFileGenerator</Generator>
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Page>
-		<Page Include="Library\Model\Style\TextBox.xaml">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-			<Generator>XamlIntelliSenseFileGenerator</Generator>
 		</Page>
 	</ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Model.Form;
+using System.Collections.Generic;
 
 namespace Model.RevitCommand
 {
@@ -10,6 +11,11 @@ namespace Model.RevitCommand
         public override void Execute()
         {
             var form = new Form.Form();
+            form.DataContext = new
+            {
+                Data = new List<string> {"Hello", "Worl", "Ngu64n" }
+            };
+
             form.ShowDialog();
 
             //var form = new Form.FormTemplate();

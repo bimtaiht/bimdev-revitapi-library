@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:c="clr-namespace:Model.Control" mc:Ignorable="d"
+        xmlns:c="clr-namespace:Model.Control;assembly=BIMDev.ControlLibrary" mc:Ignorable="d"
              x:Name="root">
     <Window.Resources>
-        <ResourceDictionary Source="/RevitCommand;component/Library/Model/Style/Styles.xaml" />
+        <ResourceDictionary Source="/BIMDev.ControlLibrary;component/Model/Style/Styles.xaml" />
     </Window.Resources>
     <StackPanel Margin="10">
-        <!--<c:MultiComboBox SelectionMode="Multiple"/>-->
+        <c:MultiComboBox SelectionMode="Multiple"
+                        ItemsSource="{Binding Data}"/>
     </StackPanel>
 </Window>
