@@ -10,7 +10,6 @@
         <ResourceDictionary Source="/BIMDev.ControlLibrary;component/Model/Style/Styles.xaml" />
     </Window.Resources>
     <StackPanel Margin="10">
-        <c:MultiComboBox SelectionMode="Multiple"
-                        ItemsSource="{Binding Data}"/>
+        <TextBlock Text="Demo Form"/>
     </StackPanel>
 </Window>
