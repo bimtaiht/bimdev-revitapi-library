@@ -172,9 +172,6 @@
 		  <HintPath>..\lib\BIMDev.ControlLibrary.dll</HintPath>
 		  <CopyLocal>True</CopyLocal>
 		</Reference>
-		<Reference Include="Control.Library">
-		  <HintPath>..\Control.Library\bin\x64\Release 2023\net48\Control.Library.dll</HintPath>
-		</Reference>
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
