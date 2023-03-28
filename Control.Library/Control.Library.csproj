@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Platforms>x64;AnyCPU</Platforms>
+		<PackageId>$(ProductName)</PackageId>
+		<Version></Version>
+		<Authors>$(Authors)</Authors>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug 2020|x64'">
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+	</PropertyGroup>
+	<Import Project="$(SolutionDir)CommonProjectProperties.prop" />
+	<ItemGroup>
+		<None Remove="Model\Style\MultiComboBox.xaml" />
+		<None Remove="Model\Style\Styles.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="PresentationFramework.Aero, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+		<Reference Include="System.ComponentModel.Composition" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="System.IO" />
+		<Reference Include="System.Management" />
+		<Reference Include="System.Web.Extensions" />
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.Xaml" />
+		<Reference Include="WindowsBase" />
+		<Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+			<HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
+		</Reference>
+		<Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+			<HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+		</Reference>
+		<Reference Include="RevitAPI">
+			<HintPath>$(SolutionDir)\lib\$(RevitVersion)\RevitAPI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="RevitAPIUI">
+			<HintPath>$(SolutionDir)\lib\$(RevitVersion)\RevitAPIUI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+			<HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+			<HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\System.Windows.Interactivity.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Nancy" Version="2.0.0" />
+		<PackageReference Include="System.Management" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Include="Model\Form\Base\FormTemplate.xaml">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		  <Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Form\UserControl\ComboBoxUC.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Form\UserControl\PickElementSettingUC.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Form\UserControl\ProgressUC.xaml">
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Page>
+		<Page Include="Model\Style\Button.xaml">
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Page>
+		<Page Include="Model\Style\CheckBox.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Style\Combobox.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Style\DataTemplate.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Style\ListView.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Style\MultiComboBox.xaml">
+		  <Generator>XamlIntelliSenseFileGenerator</Generator>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Page>
+		<Page Include="Model\Style\RadioButton.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+		<Page Include="Model\Style\Styles.xaml">
+		  <Generator>XamlIntelliSenseFileGenerator</Generator>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Page>
+		<Page Include="Model\Style\TextBox.xaml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Generator>XamlIntelliSenseFileGenerator</Generator>
+		</Page>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy /Y &quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;$(TargetDir)$(AssemblyName)_$(ConfigurationName).dll&quot;" />
+	</Target>
+</Project>

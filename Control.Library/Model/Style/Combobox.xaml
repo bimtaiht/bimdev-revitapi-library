@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:c="clr-namespace:Model.Control">
+    <Style TargetType="{x:Type c:FilteredComboBox}">
+        <Setter Property="IsEditable" Value="True"></Setter>
+        <Setter Property="IsTextSearchEnabled" Value="False"></Setter>
+        <Setter Property="DisplayMemberPath" Value="Name"></Setter>
+        <!--<Setter Property="ToolTip">
+            <Setter.Value>
+                <TextBlock Text="{Binding Path=Text, RelativeSource={RelativeSource Self}}" />
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+
+    <!--<Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <TextBlock Text="{Binding Path=Text, RelativeSource={RelativeSource Self}}" />
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+</ResourceDictionary>

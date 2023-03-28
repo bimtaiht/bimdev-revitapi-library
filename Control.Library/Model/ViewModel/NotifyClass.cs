@@ -1,5 +1,4 @@
-﻿using SingleData;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Model.ViewModel
@@ -17,11 +16,5 @@ namespace Model.ViewModel
         {
             StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
-
-        public bool M2VM { get; set; } = false;
-
-        public BaseFormData? BaseFormData { get; set; }
-
-        public ButtonGroup? BaseButtonGroup { get; set; }
     }
 }
