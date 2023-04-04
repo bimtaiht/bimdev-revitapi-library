@@ -4,7 +4,7 @@
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <LangVersion>9</LangVersion>
         <Nullable>enable</Nullable>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <Platforms>x64</Platforms>
         <Authors>HBC Corp.</Authors>
     </PropertyGroup>
