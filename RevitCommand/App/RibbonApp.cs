@@ -14,21 +14,16 @@ namespace Model.Application
     public class RibbonApp : IExternalApplication
     {
         private RibbonData ribbonData => RibbonData.Instance;
-        private IOData ioData => IOData.Instance;
 
         public Result OnStartup(UIControlledApplication application)
         {
-            //application.Idling += Application_Idling;
-            //ioData.IconDirectoryPath = Path.Combine(Directory.GetParent(ioData.AssemblyDirectoryPath).FullName, "Icon");
             ribbonData.Application = application;
 
-            var nsp = "Model.RevitCommand";
+            var tab = EntTabUtil.Get("BiMHoaBinh");
+            var quanPanel = tab.GetPanel("Database");
+            quanPanel.GetPushButton("Xuất dữ liệu", "Model.RevitCommand.PMCommand", "bim");
 
-            var hbTab = EntTabUtil.Get("BiMHoaBinh");
-            var quanPanel = hbTab.GetPanel("Database");
-            quanPanel.GetPushButton("Xuất dữ liệu", $"{nsp}.PMCommand", "bim");
-
-            hbTab.CreateTab();
+            tab.CreateTab();
 
             return Result.Succeeded;
         }
