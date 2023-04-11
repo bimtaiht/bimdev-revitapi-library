@@ -57,7 +57,7 @@ namespace Model.RevitCommand
                     // Xử lý để bắt lỗi trên máy người dùng, khi không thể viết file lỗi trên notepad
                     System.Windows.MessageBox.Show(mess, "Lỗi xảy ra!");
                 }
-                //throw;
+                throw;
                 return Result.Succeeded;
             }
 
