@@ -32,6 +32,7 @@ namespace Model.RevitCommand
         protected virtual bool IsAutoDisposed => true;
         protected virtual bool HasExternalEvent => false;
         protected virtual bool IsExecute => true;
+        protected virtual bool IsThrowWhenCatchException => false;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -57,8 +58,15 @@ namespace Model.RevitCommand
                     // Xử lý để bắt lỗi trên máy người dùng, khi không thể viết file lỗi trên notepad
                     System.Windows.MessageBox.Show(mess, "Lỗi xảy ra!");
                 }
-                throw;
-                return Result.Succeeded;
+
+                if (this.IsThrowWhenCatchException)
+                {
+                    throw;
+                }
+                else
+                {
+                    return Result.Succeeded;
+                }
             }
 
             PostExecute();
