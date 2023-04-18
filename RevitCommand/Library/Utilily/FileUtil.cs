@@ -28,7 +28,7 @@ namespace Utility
             }
             if (!Directory.Exists(Path.GetDirectoryName(savePath)))
             {
-                MessageBox.Show("Đường dẫn file excel không tồn tại!");
+                MessageBox.Show($"Đường dẫn file excel không tồn tại : {savePath}");
                 return false;
             }
 

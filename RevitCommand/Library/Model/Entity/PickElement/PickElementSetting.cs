@@ -8,7 +8,7 @@ using Utility;
 
 namespace Model.Entity
 {
-    public class PickElementSetting : BaseModel
+    public class PickElementSetting
     {
         private DisciplineType disciplineType;
         public DisciplineType DisciplineType
@@ -38,7 +38,6 @@ namespace Model.Entity
             set
             {
                 pickedElements = value;
-                this.UpdateViewModel(() => this.Count = this.GetCount());
             }
         }
 

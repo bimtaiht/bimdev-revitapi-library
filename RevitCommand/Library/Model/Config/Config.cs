@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Entity
+namespace Model.Data
 {
-    public class BaseModel
+    public class Config
     {
-        public bool VM2M { get; set; } = true;
     }
 }
