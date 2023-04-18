@@ -19,19 +19,14 @@ namespace Model.Application
         {
             ribbonData.Application = application;
 
-            var tab = EntTabUtil.Get("BiMHoaBinh");
-            var quanPanel = tab.GetPanel("Database");
-            quanPanel.GetPushButton("Xuất dữ liệu", "Model.RevitCommand.PMCommand", "bim");
+            var tab = EntTabUtil.Get("BIMDev tools");
+            var panel = tab.GetPanel("Panel");
+            panel.GetPushButton("Command", "Model.RevitCommand.Command", "Resourse/Icon/command.icon");
 
             tab.CreateTab();
 
             return Result.Succeeded;
         }
-
-        //private void Application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
-        //{
-        //    boQExcelLinkData.SelectElementByActiveCell();
-        //}
 
         public Result OnShutdown(UIControlledApplication application)
         {

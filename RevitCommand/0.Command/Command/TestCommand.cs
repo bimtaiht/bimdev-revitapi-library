@@ -12,16 +12,7 @@ namespace Model.RevitCommand
     {
         public override void Execute()
         {
-            var form = new Form.Form();
-            form.DataContext = new
-            {
-                Data = new List<string> {"Hello", "Worl", "Ngu64n" }
-            };
-
-            form.ShowDialog();
-
-            //var form = new Form.FormTemplate();
-            //form.ShowDialog();
+           
         }
     }
 }

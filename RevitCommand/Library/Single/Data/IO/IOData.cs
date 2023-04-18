@@ -48,7 +48,7 @@ namespace SingleData
         private string? iconDirectoryPath;
         public string IconDirectoryPath
         {
-            get => iconDirectoryPath ??= Path.Combine(AssemblyDirectoryPath, "Icon");
+            get => iconDirectoryPath ??= this.AssemblyDirectoryPath;
             set => iconDirectoryPath = value;
         }
 

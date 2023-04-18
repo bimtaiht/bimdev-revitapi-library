@@ -32,7 +32,7 @@ namespace Model.Entity
         public string? IconName { get; set; }
 
         private string? iconPath;
-        public string IconPath => iconPath ??= Path.Combine(ioData.IconDirectoryPath, $"{IconName}.ico");
+        public string IconPath => iconPath ??= Path.Combine(ioData.IconDirectoryPath, IconName);
 
         public string AssemblyName => ribbonData.AddinFilePath;
 
