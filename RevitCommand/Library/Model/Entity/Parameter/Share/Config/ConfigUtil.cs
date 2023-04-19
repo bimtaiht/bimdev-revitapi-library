@@ -24,10 +24,17 @@ namespace Model.Entity.ShareParameterFactoryNS
             return "Group1";
         }
 
+#if REVIT2022_OR_LESS
         public static ParameterType GetParameterType(this Config q)
         {
             return ParameterType.Number;
         }
+#else
+        public static ForgeTypeId GetForgeTypeId(this Config q)
+        {
+            return revitData.MeasurableSpecs.First(x => x.TypeId == "autodesk.spec.aec:number-2.0.0");
+        }
+#endif
 
         public static BuiltInParameterGroup GetParameterGroup(this Config q)
         {

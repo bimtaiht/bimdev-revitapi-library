@@ -49,12 +49,17 @@ namespace Model.Entity
         {
             var definitions = q.DefinitionGroup.Definitions;
             var name = q.Name;
-            var parameterType = q.ParameterType;
 
             var definition = definitions.FirstOrDefault(x => x.Name == name);
             if (definition == null)
             {
+#if REVIT2022_OR_LESS
+                var parameterType = q.ParameterType;
                 var options = new ExternalDefinitionCreationOptions(name, parameterType);
+#else
+                var forgeTypeId = q.ForgeTypeId;
+                var options = new ExternalDefinitionCreationOptions(name, forgeTypeId);
+#endif
                 definition = definitions.Create(options);
             }
             else

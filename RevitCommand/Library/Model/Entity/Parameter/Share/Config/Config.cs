@@ -21,12 +21,21 @@ namespace Model.Entity.ShareParameterFactoryNS
             set => this.definitionGroupName = value;
         }
 
+#if REVIT2022_OR_LESS
         private ParameterType? parameterType;
         public ParameterType ParameterType
         {
             get => this.parameterType ??= this.GetParameterType();
             set => this.parameterType = value;
         }
+#else
+        private ForgeTypeId? forgeTypeId;
+        public ForgeTypeId ForgeTypeId
+        {
+            get => this.forgeTypeId ??= this.GetForgeTypeId();
+            set => this.forgeTypeId = value;
+        }
+#endif
 
         private BuiltInParameterGroup? parameterGroup;
         public BuiltInParameterGroup ParameterGroup

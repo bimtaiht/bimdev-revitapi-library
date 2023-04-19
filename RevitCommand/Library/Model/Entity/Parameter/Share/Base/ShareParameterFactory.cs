@@ -32,12 +32,21 @@ namespace Model.Entity
         }
 
 
+#if REVIT2022_OR_LESS
         private ParameterType? parameterType;
         public ParameterType ParameterType
         {
             get => this.parameterType ??= this.Config.ParameterType;
             set => this.parameterType = value;
         }
+#else
+        private ForgeTypeId? forgeTypeId;
+        public ForgeTypeId ForgeTypeId
+        {
+            get => this.forgeTypeId ??= this.Config.ForgeTypeId;
+            set => this.forgeTypeId = value;
+        }
+#endif
 
         private BuiltInParameterGroup? parameterGroup;
         public BuiltInParameterGroup ParameterGroup

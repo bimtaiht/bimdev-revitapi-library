@@ -306,5 +306,11 @@ namespace SingleData
         }
 
         public bool IsElementForBoQ { get; set; } = false;
+
+#if REVIT2023_OR_GREATER
+        // measureablespecs 2023
+        private IList<ForgeTypeId>? measurableSpecs;
+        public IList<ForgeTypeId> MeasurableSpecs => this.measurableSpecs ??= UnitUtils.GetAllMeasurableSpecs();
+#endif
     }
 }
