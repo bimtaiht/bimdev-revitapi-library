@@ -23,6 +23,17 @@ namespace Utility
             return new BoundingBoxXYZ { Min = newMin, Max = newMax };
         }
 
+        public static BoundingBoxXYZ CreateTransform(this BoundingBoxXYZ bb, Transform tf)
+        {
+            var min = bb.Min;
+            var max = bb.Max;
+
+            var newMin = tf.OfPoint(min);
+            var newMax = tf.OfPoint(max);
+
+            return new BoundingBoxXYZ { Min = newMin, Max = newMax };
+        }
+
         public static bool IsOverlap(this BoundingBoxXYZ bb1, BoundingBoxXYZ bb2, bool isTangentValue = true)
         {
             var min1 = bb1.Min;
