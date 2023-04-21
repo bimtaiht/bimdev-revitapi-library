@@ -13,6 +13,10 @@ namespace Model.Entity
 {
     public class EntSolid
     {
+        public Solid? this[SolidCode code] => this.GetSolid(code);
+
+        public Solid? this[List<SolidCode> codes] => this.GetSolid(codes);
+
         protected Solid? solid;
         public virtual Solid Solid
         {

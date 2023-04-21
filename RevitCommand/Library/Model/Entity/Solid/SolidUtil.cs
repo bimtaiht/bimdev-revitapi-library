@@ -30,7 +30,7 @@ namespace Utility
                 var purgeTf = inputTf.Purge();
                 geoElem = fi.GetOriginalGeometry(revitData.GeometryOptions);
                 if (isGetTransformSolid)
-                { 
+                {
                     geoElem = geoElem.GetTransformed(purgeTf);
                 }
                 #endregion
@@ -208,6 +208,12 @@ namespace Utility
         public static Solid GetTransformedSolid(this Solid solid, Transform tf)
         {
             return SolidUtils.CreateTransformed(solid, tf);
+        }
+
+        public static bool IsIntersect(this Solid solid, Solid otherSolid)
+        {
+            var instersectSolid = BooleanOperationsUtils.ExecuteBooleanOperation(solid, otherSolid, BooleanOperationsType.Intersect);
+            return !instersectSolid.Volume.IsEqual(0);
         }
     }
 }

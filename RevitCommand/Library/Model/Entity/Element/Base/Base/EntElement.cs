@@ -50,22 +50,13 @@ namespace Model.Entity
         private EntLocation? entLocation;
         public EntLocation EntLocation => entLocation ??= this.GetEntLocation();
 
+        // Transform
         protected Transform? purgeTransform;
         public virtual Transform PurgeTransform => purgeTransform ??= EntLocation.PurgeTransform;
 
-        //protected EntCategoryType? entCategoryType;
-        //public virtual EntCategoryType EntCategoryType
-        //{
-        //    get
-        //    {
-        //        if (entCategoryType == null)
-        //        {
-        //            entCategoryType = this.GetEntCategoryType();
-        //        }
-        //        return entCategoryType.Value;
-        //    }
-        //}
+        public Transform? LinkTransform { get; set; }
 
+        //
         private EntFamily? entFamily;
         public EntFamily EntFamily => entFamily ??= this.GetEntFamily();
 

@@ -35,5 +35,8 @@ namespace Model.Entity
         public bool IsGetFamilySolid { get; set; }
 
         public override Transform? PurgeTransform => purgeTransform ??= this.GetPurgeTransform();
+
+        private Solid? linkSolid;
+        public Solid? LinkSolid => this.linkSolid ??= this.GetLinkSolid();
     }
 }

@@ -24,8 +24,35 @@ namespace Utility
             };
         }
 
-        #region Property
+        // code
+        public static Solid? GetSolid(this EntSolid q, SolidCode code)
+        {
+            if (q is not ElementEntSolid elementSolid) return null;
+            switch (code)
+            {
+                case SolidCode.Real:
+                    return elementSolid.RealSolid;
+                case SolidCode.Family:
+                    return elementSolid.FamilySolid;
+                case SolidCode.Link:
+                    return elementSolid.LinkSolid;
+                default:
+                    throw new Exception("This code shoudldn't be reached!");
+            }
+        }
 
+        public static Solid? GetSolid(this EntSolid q, List<SolidCode> codes)
+        {
+            Solid? solid = null;
+            foreach (var code in codes)
+            {
+                solid = q[code];
+                if (solid != null) return solid;
+            }
+            return solid;
+        }
+
+        //
         public static EntBoundingBoxXYZ GetEntBoundingBoxXYZ(this EntSolid entSolid)
         {
             return entSolid.BoundingBoxXYZ.GetEntBoundingBoxXYZ();
@@ -69,10 +96,8 @@ namespace Utility
             return canPurgeSolid;
         }
 
-        #endregion
 
-        #region Method
-
+        // method
         public static Solid? TryMerge(this EntSolid es1, EntSolid es2)
         {
             Solid? mergeSolid = null;
@@ -149,7 +174,5 @@ namespace Utility
             }
             return mergeSolid;
         }
-
-        #endregion
     }
 }

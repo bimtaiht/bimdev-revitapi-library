@@ -33,7 +33,7 @@ namespace Utility
             return elemEntSolid;
         }
 
-        #region Property
+        // 
         public static Solid GetOriginTransformFamilySolid(this ElementEntSolid elemEntSolid)
         {
             var originTransformFamilySolid = elemEntSolid.EntElement!.RevitElement!.GetSingleSolid(false, false);
@@ -81,6 +81,13 @@ namespace Utility
             var puregeTransform = elementEntSolid.EntElement.PurgeTransform;
             return puregeTransform;
         }
-        #endregion
+        
+        public static Solid? GetLinkSolid(this ElementEntSolid q)
+        {
+            var linkTransform = q.EntElement!.LinkTransform;
+            if (linkTransform == null) return null;
+            var solid = q.Solid;
+            return SolidUtils.CreateTransformed(solid, linkTransform);
+        }
     }
 }
