@@ -39,6 +39,8 @@ namespace Utility
 
         public static string CombineString<T>(this IEnumerable<T> values, Func<T, string> getStringFunc = null, string connector = "\n")
         {
+            if (!values.Any()) return "";
+
             if (values is IEnumerable<string> && getStringFunc == null)
             {
 #pragma warning disable CS8604 // Possible null reference argument.

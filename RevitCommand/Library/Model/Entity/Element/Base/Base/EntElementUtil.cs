@@ -190,9 +190,9 @@ namespace Utility
             return null;
         }
 
-        public static BuiltInCategory? GetBuiltInCategory(this EntElement entElement)
+        public static BuiltInCategory GetBuiltInCategory(this EntElement entElement)
         {
-            return entElement.RevitElement?.Category.GetBuiltInCategory();
+            return entElement.RevitElement!.Category.GetBuiltInCategory();
         }
 
         public static string? GetFamilyName(this EntElement entElement)

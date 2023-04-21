@@ -88,7 +88,7 @@ namespace Model.Entity
         public string? FamilyName => familyName ??= this.GetFamilyName();
 
         private BuiltInCategory? builtInCategory;
-        public BuiltInCategory? BuiltInCategory => builtInCategory ??= this.GetBuiltInCategory();
+        public BuiltInCategory BuiltInCategory => builtInCategory ??= this.GetBuiltInCategory();
 
         public bool IsGetCategory { get; set; } = false;
 
