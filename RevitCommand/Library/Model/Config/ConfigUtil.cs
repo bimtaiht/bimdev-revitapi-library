@@ -11,8 +11,8 @@ namespace Model.Data
     public static class ConfigUtil
     {
         private static bool isLoadConfig { get; set; } = false;
-
         private static string? path { get; set; }
+        private static Config? config { get; set; }
 
         public static T Get<T>(string configPath) where T: Config
         {
@@ -33,6 +33,8 @@ namespace Model.Data
                 config = (T)Activator.CreateInstance(typeof(T), new object[] { });
             }
 
+            ConfigUtil.config = config;
+
             isLoadConfig = false;
             path = configPath;
 
@@ -45,6 +47,13 @@ namespace Model.Data
 
             var configString = JsonConvert.SerializeObject(q, Formatting.Indented);
             File_Util.WriteTxtFile(path!, configString, true);
+        }
+
+        public static void Save()
+        {
+            if (isLoadConfig) return;
+
+            config!.Save();
         }
     }
 }
