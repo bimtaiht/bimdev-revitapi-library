@@ -40,8 +40,9 @@ namespace Utility
                     return false;
                 }
             }
-            catch(System.UnauthorizedAccessException)
+            catch(System.UnauthorizedAccessException ex)
             {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
                 return false;
             }
 
