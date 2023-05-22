@@ -62,9 +62,12 @@ namespace Model.Entity
             this.Items.RemoveAt(index);
         }
 
+        public Action<T>? OnAddItem { get; set; }
+
         public void Add(T item)
         {
             this.Items.Add(item);
+            this.OnAddItem?.Invoke(item);
         }
 
         public void Clear()
@@ -82,9 +85,13 @@ namespace Model.Entity
             this.Items.CopyTo(array, arrayIndex);
         }
 
+        public Action<T>? OnRemoveItem { get; set; }
+
         public bool Remove(T item)
         {
-            return this.Items.Remove(item);
+            var flag = this.Items.Remove(item);
+            this.OnRemoveItem?.Invoke(item);
+            return flag;
         }
     }
 }
