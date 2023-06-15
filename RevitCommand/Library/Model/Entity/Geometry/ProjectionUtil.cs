@@ -59,9 +59,9 @@ namespace Utility
         /// <returns></returns>
         public static XYZ GetProjectPoint(this Plane plane, XYZ point)
         {
-            double d = plane.GetSignedDistance(point);
+            double d = point.DistanceTo(plane);
             XYZ q = point + plane.Normal * d;
-            return plane.IsPointInPlane(q) ? q : point + plane.Normal * -d;
+            return plane.IsContains(q) ? q : point + plane.Normal * -d;
         }
 
         /// <summary>

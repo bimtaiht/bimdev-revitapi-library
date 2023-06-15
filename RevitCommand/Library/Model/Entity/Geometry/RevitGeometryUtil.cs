@@ -179,13 +179,23 @@ namespace Utility
             return angle;
         }
 
-        public static double DistanceFromPointToLine(this Line line, XYZ point)
+        private static double distanceTo(Line line, XYZ point)
         {
             XYZ vector = line.Origin - point;
-            double Denominator = vector.GetLength();
+            double denominator = vector.GetLength();
             XYZ crossProduct = vector.CrossProduct(line.Direction);
-            double Numerator = crossProduct.GetLength();
-            return Numerator / Denominator;
+            double numerator = crossProduct.GetLength();
+            return numerator / denominator;
+        }
+
+        public static double DistanceTo(this XYZ point, Line line)
+        {
+            return distanceTo(line, point);
+        }
+
+        public static double DistanceTo(this Line line, XYZ point)
+        {
+            return distanceTo(line, point);
         }
 
         public static double GetAngle(this XYZ targetVec, XYZ vecX, XYZ vecY)
@@ -228,7 +238,7 @@ namespace Utility
             return angle;
         }
 
-        public static XYZ GetVector(this double angle, XYZ vecX, XYZ vecY)
+        public static XYZ GetVector(XYZ vecX, XYZ vecY, double angle)
         {
             return (vecX + vecY * Math.Tan(angle)).Normalize();
         }
@@ -342,16 +352,26 @@ namespace Utility
             return curves;
         }
 
+        private static double distanceTo(Plane plane, XYZ point)
+        {
+            XYZ v = point - plane.Origin;
+            return Math.Abs(plane.Normal.DotProduct(v));
+        }
+
+        public static double DistanceTo(this XYZ point, Plane plane)
+        {
+            return distanceTo(plane, point);
+        }
+
         /// <summary>
         /// Lấy khoảng cách từ môt điểm đến một mặt phẳng
         /// </summary>
         /// <param name="plane">Mặt phẳng đang xét</param>
         /// <param name="point">Điểm đang xét</param>
         /// <returns></returns>
-        public static double GetSignedDistance(this Plane plane, XYZ point)
+        public static double DistanceTo(this Plane plane, XYZ point)
         {
-            XYZ v = point - plane.Origin;
-            return Math.Abs(plane.Normal.DotProduct(v));
+            return distanceTo(plane, point);
         }
 
         /// <summary>
@@ -412,9 +432,9 @@ namespace Utility
         /// <param name="plane">Mặt phẳng đang xét</param>
         /// <param name="point">Điểm đang xét</param>
         /// <returns></returns>
-        public static bool IsPointInPlane(this Plane plane, XYZ point)
+        public static bool IsContains(this Plane plane, XYZ point)
         {
-            return plane.GetSignedDistance(point).IsEqual(0);
+            return point.DistanceTo(plane).IsEqual(0);
         }
 
         /// <summary>
@@ -423,7 +443,7 @@ namespace Utility
         /// <param name="line">Đoạn thẳng đang xét</param>
         /// <param name="point">Điểm đang xét</param>
         /// <returns></returns>
-        public static bool IsPointInLine(Line line, XYZ point)
+        public static bool IsContains(this Line line, XYZ point)
         {
             if (point.IsEqual(line.GetEndPoint(0)) || point.IsEqual(line.GetEndPoint(1)))
                 return true;
