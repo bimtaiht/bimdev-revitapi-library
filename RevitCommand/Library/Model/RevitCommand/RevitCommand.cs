@@ -16,13 +16,15 @@ namespace Model.RevitCommand
     [Transaction(TransactionMode.Manual)]
     public abstract class RevitCommand : IExternalCommand
     {
-        protected RevitData revitData => RevitData.Instance; 
+        protected RevitData revitData => RevitData.Instance;
         protected StructuralData structuralData => StructuralData.Instance;
         protected ArchitectData architectData => ArchitectData.Instance;
         protected MEPData mepData => MEPData.Instance;
         protected ViewData viewData => ViewData.Instance;
         protected WorksetData worksetData => WorksetData.Instance;
         protected IOData ioData => IOData.Instance;
+        private FormData formData => FormData.Instance;
+
         protected UIApplication uiapp => revitData.UIApplication!;
         protected Autodesk.Revit.ApplicationServices.Application app => revitData.Application;
         protected UIDocument uidoc => revitData.UIDocument;
@@ -44,7 +46,7 @@ namespace Model.RevitCommand
                 if (!IsExecute) return Result.Succeeded;
                 Execute();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 RevitDataUtil.Dispose();
 
@@ -75,15 +77,31 @@ namespace Model.RevitCommand
 
         protected virtual void PreExecute()
         {
-            if (HasExternalEvent)
-            {
-                revitData.ExternalEvent = ExternalEvent.Create(revitData.ExternalEventHandler);
-            }
+
         }
 
         protected virtual void PostExecute()
         {
-            if (IsAutoDisposed)
+            var isFormShow = formData.IsFormVisible && !formData.IsDialog;
+
+            var hasExternalEvent = this.HasExternalEvent;
+            if (!hasExternalEvent)
+            {
+                hasExternalEvent = isFormShow;
+            }
+
+            if (hasExternalEvent)
+            {
+                revitData.ExternalEvent = ExternalEvent.Create(revitData.ExternalEventHandler);
+            }
+
+            var isAutoDisposed = this.IsAutoDisposed;
+            if (isAutoDisposed)
+            {
+                isAutoDisposed = !isFormShow;
+            }
+
+            if (isAutoDisposed)
             {
                 RevitDataUtil.Dispose();
             }

@@ -10,6 +10,7 @@
 	</PropertyGroup>
 	<Import Project="$(SolutionDir)CommonProjectProperties.prop" />
 	<ItemGroup>
+		<None Remove="0.Command\Model\Form\Form.xaml" />
 		<None Remove="Library\Image\addsub.png" />
 		<None Remove="Library\Image\add_2.png" />
 		<None Remove="Library\Image\add_3.png" />
@@ -217,11 +218,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Include="0.Command\Model\Form\Form.xaml">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		  <SubType>Designer</SubType>
-		  <Generator>XamlIntelliSenseFileGenerator</Generator>
-		</Page>
+	  <Page Include="0.Command\Model\Form\Form.xaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	    <Generator>XamlIntelliSenseFileGenerator</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>

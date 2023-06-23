@@ -93,6 +93,7 @@ namespace Utility
             GridDataUtil.Dispose();
 
             PartDataUtil.Dispose();
+            FormData.Dispose();
 
             RevitData.Instance = new RevitData { UIApplication = RevitData.Instance.UIApplication };
         }

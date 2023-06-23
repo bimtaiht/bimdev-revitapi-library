@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SingleData;
+using System.Windows;
 
 namespace Utility
 {
@@ -13,6 +14,7 @@ namespace Utility
     {
         private static RevitData revitData => RevitData.Instance;
         private static ViewData viewData => ViewData.Instance;
+        private static FormData formData => FormData.Instance;
 
         public static void SetCurrentViewAsWorkPlane(this Document doc)
         {
@@ -39,6 +41,39 @@ namespace Utility
             }
 
             return pathName;
+        }
+
+        public static void DoTransaction(this Document q, string transactionName, Action action)
+        {
+            Action wrapperAction = () =>
+            {
+                using (var transaction = new Transaction(q, transactionName))
+                {
+                    transaction.Start();
+
+                    action();
+
+                    transaction.Commit();
+                }
+            };
+
+            var isFormShow = formData.IsFormVisible && !formData.IsDialog;
+            if (!isFormShow)
+            {
+                wrapperAction();
+            }
+            else
+            {
+                try
+                {
+                    revitData.ExternalEventHandler.Action = wrapperAction;
+                    revitData.ExternalEvent!.Raise();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                }
+            }
         }
     }
 }

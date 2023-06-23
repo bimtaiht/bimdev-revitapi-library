@@ -19,9 +19,9 @@ namespace Model.Application
         {
             ribbonData.Application = application;
 
-            var tab = EntTabUtil.Get("BIMDev tools");
-            var panel = tab.GetPanel("Panel");
-            panel.GetPushButton("Command", "Model.RevitCommand.Command", "Resourse/Icon/command.icon");
+            var tab = EntTabUtil.Get("BIMDev-MEP");
+            var panel = tab.GetPanel("Pipe");
+            panel.GetPushButton("Sprinkler Connect", "Model.RevitCommand.PipeSprinklerCommand", "Resource/Icon/sprinklerconnect.ico");
 
             tab.CreateTab();
 
