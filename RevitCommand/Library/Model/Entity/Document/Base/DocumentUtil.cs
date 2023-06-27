@@ -42,38 +42,5 @@ namespace Utility
 
             return pathName;
         }
-
-        public static void DoTransaction(this Document q, string transactionName, Action action)
-        {
-            Action wrapperAction = () =>
-            {
-                using (var transaction = new Transaction(q, transactionName))
-                {
-                    transaction.Start();
-
-                    action();
-
-                    transaction.Commit();
-                }
-            };
-
-            var isFormShow = formData.IsFormVisible && !formData.IsDialog;
-            if (!isFormShow)
-            {
-                wrapperAction();
-            }
-            else
-            {
-                try
-                {
-                    revitData.ExternalEventHandler.Action = wrapperAction;
-                    revitData.ExternalEvent!.Raise();
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
-                }
-            }
-        }
     }
 }
