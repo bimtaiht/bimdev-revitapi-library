@@ -118,6 +118,42 @@ namespace Utility
             return teeFitting;
         }
 
+        public static void ConnectTo(this Pipe pipe, FamilyInstance fittingOrFixture)
+        {
+            var connectors1 = pipe.ConnectorManager.UnusedConnectors.Cast<Connector>();
+            var connectors2 = fittingOrFixture.MEPModel.ConnectorManager.UnusedConnectors.Cast<Connector>();
+
+            Connector? connector1 = null;
+            Connector? connector2 = null;
+
+            foreach (var conn1 in connectors1)
+            {
+                if (connector1 != null && connector2 != null)
+                {
+                    break;
+                }
+
+                var connDir1 = conn1.CoordinateSystem.BasisZ;
+                foreach (var conn2 in connectors2)
+                {
+                    var connDir2 = conn2.CoordinateSystem.BasisZ;
+                    if (connDir1.IsOppositeDirection(connDir2))
+                    {
+                        connector1 = conn1;
+                        connector2 = conn2;
+                        break;
+                    }
+                }
+            }
+
+            connector1!.ConnectTo(connector2);
+        }
+
+        public static void ConnectTo(this FamilyInstance fittingOrFixture, Pipe pipe)
+        {
+            ConnectTo(pipe, fittingOrFixture);
+        }
+
         public static void AutoConnect(this List<Pipe> pipes)
         {
             for (int i = 0; i < pipes.Count - 1; i++)
