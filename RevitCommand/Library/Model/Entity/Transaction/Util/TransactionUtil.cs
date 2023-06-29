@@ -16,6 +16,15 @@ namespace Utility
         private static TransactionData transactionData => TransactionData.Instance;
         private static FormData formData => FormData.Instance;
 
+        public static void DoTransaction(this Document q, string transactionName, Action action)
+        {
+            q.DoTransaction(new TransactionConfig
+            {
+                Name = transactionName,
+                Action = action
+            });
+        }
+
         public static void DoTransaction(this Document q, TransactionConfig config)
         {
             Action wrapperAction = () =>
