@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SingleData;
+using System.Windows;
 
 namespace Utility
 {
@@ -13,6 +14,7 @@ namespace Utility
     {
         private static RevitData revitData => RevitData.Instance;
         private static ViewData viewData => ViewData.Instance;
+        private static FormData formData => FormData.Instance;
 
         public static void SetCurrentViewAsWorkPlane(this Document doc)
         {

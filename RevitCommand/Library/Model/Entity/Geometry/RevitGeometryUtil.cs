@@ -85,6 +85,16 @@ namespace Utility
             return (first + second) / 2;
         }
 
+        public static XYZ Translate(this XYZ point, XYZ planeVector, double slope)
+        {
+            return point + planeVector + XYZ.BasisZ * planeVector.GetLength() * slope;
+        }
+
+        public static XYZ Sloping(this XYZ point, XYZ refrencePoint, double slope)
+        {
+            return point + XYZ.BasisZ * (refrencePoint - point).GetLength() * slope;
+        }
+
         public static Autodesk.Revit.DB.XYZ TransformPoint(Autodesk.Revit.DB.XYZ point, Transform transform)
         {
             //get the coordinate value in X, Y, Z axis
