@@ -5,6 +5,7 @@ using Model.Form;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Model.Entity;
 
 namespace Model.RevitCommand
 {
@@ -15,5 +16,13 @@ namespace Model.RevitCommand
         {
             
         }
+
+        public override RibbonConfig? RibbonConfig => new()
+        {
+            Tab = "BIMDev-MEP",
+            Panel = "Pipe",
+            Name = "Sanitary Connect",
+            IconPath = "Resource/Icon/sprinklerconnect.ico"
+        };
     }
 }

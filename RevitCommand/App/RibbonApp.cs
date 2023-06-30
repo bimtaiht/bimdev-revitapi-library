@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utility;
+using Model.RevitCommand;
 
 namespace Model.Application
 {
@@ -19,11 +20,7 @@ namespace Model.Application
         {
             ribbonData.Application = application;
 
-            var tab = EntTabUtil.Get("BIMDev tools");
-            var panel = tab.GetPanel("Panel");
-            panel.GetPushButton("Command", "Model.RevitCommand.Command", "Resourse/Icon/command.icon");
-
-            tab.CreateTab();
+            //(new RevitCommand.Command()).CreateRibbon();
 
             return Result.Succeeded;
         }

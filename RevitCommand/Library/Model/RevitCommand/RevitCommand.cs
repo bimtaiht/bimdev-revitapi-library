@@ -10,6 +10,7 @@ using SingleData;
 using Utility;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.ApplicationServices;
+using Model.Entity;
 
 namespace Model.RevitCommand
 {
@@ -90,5 +91,18 @@ namespace Model.RevitCommand
         }
 
         public abstract void Execute();
+
+        // Ribbon
+        public virtual RibbonConfig? RibbonConfig { get; set; }
+
+        public void CreateRibbon()
+        {
+            var config = this.RibbonConfig!;
+            var tab = EntTabUtil.Get(config.Tab!);
+            var panel = tab.GetPanel(config.Panel!);
+            panel.GetPushButton(config.Name!, this.GetType().FullName, config.IconPath!);
+
+            tab.CreateTab();
+        }
     }
 }
