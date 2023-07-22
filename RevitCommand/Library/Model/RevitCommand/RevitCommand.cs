@@ -118,7 +118,14 @@ namespace Model.RevitCommand
             var config = this.RibbonConfig!;
             var tab = EntTabUtil.Get(config.Tab!);
             var panel = tab.GetPanel(config.Panel!);
-            panel.GetPushButton(config.Name!, this.GetType().FullName, config.IconPath!);
+
+            panel.GetPushButton(new PushButtonCofig
+            {
+                Name = config.Name,
+                CommandName = this.GetType().FullName,
+                IconName = config.IconPath,
+                ToolTip = config.ToolTip
+            });
 
             tab.CreateTab();
         }

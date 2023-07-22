@@ -53,14 +53,22 @@ namespace Utility
             return dot.IsEqual(1) || dot.IsEqual(-1);
         }
 
-        public static bool IsOppositeDirection(this Autodesk.Revit.DB.XYZ firstVec, Autodesk.Revit.DB.XYZ secondVec)
+        public static bool IsOppositeDirection(this Autodesk.Revit.DB.XYZ firstVec, Autodesk.Revit.DB.XYZ secondVec, bool allowTolerate = false)
         {
             // get the unit vector for two vectors
             Autodesk.Revit.DB.XYZ first = firstVec.Normalize();
             Autodesk.Revit.DB.XYZ second = secondVec.Normalize();
             // if the dot product of two unit vectors is equal to -1, return true
             double dot = first.DotProduct(second);
-            return dot.IsEqual(-1);
+
+            if (!allowTolerate)
+            {
+                return dot.IsEqual(-1);
+            }
+            else
+            {
+                return (dot / 100).IsEqual(-0.01);
+            }
         }
 
         public static bool IsOppositeDirection(this Autodesk.Revit.DB.UV firstVec, Autodesk.Revit.DB.UV secondVec)
@@ -87,12 +95,14 @@ namespace Utility
 
         public static XYZ Translate(this XYZ point, XYZ planeVector, double slope)
         {
-            return point + planeVector + XYZ.BasisZ * planeVector.GetLength() * slope;
+            var _planeVector = new XYZ(planeVector.X, planeVector.Y, 0);
+            return point + _planeVector + XYZ.BasisZ * planeVector.GetLength() * slope;
         }
 
         public static XYZ Sloping(this XYZ point, XYZ refrencePoint, double slope)
         {
-            return point + XYZ.BasisZ * (refrencePoint - point).GetLength() * slope;
+            var deltaZ = refrencePoint.Z - point.Z;
+            return point + XYZ.BasisZ * (deltaZ + (refrencePoint - point).GetLength() * slope);
         }
 
         public static Autodesk.Revit.DB.XYZ TransformPoint(Autodesk.Revit.DB.XYZ point, Transform transform)

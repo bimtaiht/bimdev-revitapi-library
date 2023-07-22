@@ -137,7 +137,8 @@ namespace Utility
                 foreach (var conn2 in connectors2)
                 {
                     var connDir2 = conn2.CoordinateSystem.BasisZ;
-                    if (connDir1.IsOppositeDirection(connDir2))
+                    var dotProduct = connDir1.DotProduct(connDir2);
+                    if (connDir1.IsOppositeDirection(connDir2, true))
                     {
                         connector1 = conn1;
                         connector2 = conn2;
@@ -174,6 +175,20 @@ namespace Utility
             var startPoint = pipeLine.GetEndPoint(0);
             var endPoint = pipeLine.GetEndPoint(1);
 
+            // check endConnector
+            var endConnector = pipe.ConnectorManager.Connectors.Cast<Connector>()
+                .Where(conn => conn.IsConnected)
+                .FirstOrDefault(conn => conn.Origin.IsEqual(endPoint));
+            Connector? connect2EndConnector = null;
+
+            if (endConnector != null)
+            {
+                connect2EndConnector = endConnector.AllRefs.Cast<Connector>()
+                    .First(conn => conn.Owner.Id != pipe.Id);
+                endConnector.DisconnectFrom(connect2EndConnector);
+            }
+
+            // create pipe
             pipeLocation.Curve = Line.CreateBound(startPoint, splitPoint);
 
             var systemTypeId = pipe.MEPSystem.GetTypeId();
@@ -182,6 +197,14 @@ namespace Utility
 
             var secondPartPipe = Pipe.Create(doc, systemTypeId, pipeTypeId, levelId, splitPoint, endPoint);
             secondPartPipe.LookupParameter("Diameter").Set(pipe.LookupParameter("Diameter").AsDouble());
+
+            // set endConnector
+            if (connect2EndConnector != null)
+            {
+                var secondEndConnector = secondPartPipe.ConnectorManager.Connectors.Cast<Connector>()
+                    .First(conn => conn.Origin.IsEqual(endPoint));
+                secondEndConnector.ConnectTo(connect2EndConnector);
+            }
 
             return new List<Pipe> { pipe, secondPartPipe };
         }

@@ -11,16 +11,14 @@ using Utility;
 
 namespace Model.Entity
 {
-    public class RibbonConfig
+    public class PushButtonCofig
     {
-        public string? Tab { get; set; }
-
-        public string? Panel { get; set; }
-
         public string? Name { get; set; }
 
-        public string? ToolTip { get; set; }
+        public string? CommandName { get; set; }
 
-        public string? IconPath { get; set; }
+        public string? IconName { get; set; }
+
+        public string? ToolTip { get; set; }
     }
 }

@@ -29,6 +29,8 @@ namespace Model.Entity
             set=>text = value;
         }
 
+        public string? ToolTip { get; set; }
+
         public string? IconName { get; set; }
 
         private string? iconPath;

@@ -12,8 +12,10 @@ namespace Utility
 {
     public static class EntPushButtonUtil
     {
-        public static EntPushButton GetPushButton(this EntPanel entPanel, string name, string commandName, string iconName)
+        public static EntPushButton GetPushButton(this EntPanel entPanel, PushButtonCofig config)
         {
+            var name = config.Name;
+
             var entPushButtons = entPanel.EntPushButtons;
             var entPushButton = entPushButtons.SingleOrDefault(x => x.Name == name);
             if (entPushButton == null)
@@ -22,12 +24,23 @@ namespace Utility
                 {
                     EntPanel = entPanel,
                     Name = name,
-                    CommandName = commandName,
-                    IconName = iconName
+                    CommandName = config.CommandName,
+                    ToolTip = config.ToolTip,
+                    IconName = config.IconName
                 };
                 entPushButtons.Add(entPushButton);
             }
             return entPushButton;
+        }
+
+        public static EntPushButton GetPushButton(this EntPanel entPanel, string name, string commandName, string iconName)
+        {
+            return GetPushButton(entPanel, new PushButtonCofig
+            {
+                Name = name,
+                CommandName = commandName,
+                IconName = iconName
+            });
         }
 
         #region Property
@@ -47,6 +60,7 @@ namespace Utility
             var ribbonPanel = entPushButton.EntPanel!.RibbonPanel;
 
             var pbd = new PushButtonData(entPushButton.Name, entPushButton.Text, entPushButton.AssemblyName, entPushButton.ClassName);
+            pbd.ToolTip = entPushButton.ToolTip;
 
             var pb = ribbonPanel.AddItem(pbd) as PushButton;
             pb!.LargeImage = entPushButton.LargeImage;
