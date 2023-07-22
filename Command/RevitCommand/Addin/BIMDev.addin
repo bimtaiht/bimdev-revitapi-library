@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>BIMDev tools</Name>
+    <Assembly>bimdev\RevitCommand.dll</Assembly>
+    <AddInId>cc7bf54a-d26a-4d49-a840-a476167109e6</AddInId>
+    <FullClassName>Model.Application.RibbonApp</FullClassName>
+    <VendorId>Huỳnh Thiện Tài</VendorId>
+    <VendorDescription>Huỳnh Thiện Tài, BIMDev.vn</VendorDescription>
+  </AddIn>
+</RevitAddIns>
