@@ -5,6 +5,7 @@
         <LangVersion>9</LangVersion>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<AssemblyName>BIMDev.RevitAPI</AssemblyName>
         <Platforms>x64</Platforms>
         <Authors>HBC Corp.</Authors>
     </PropertyGroup>
