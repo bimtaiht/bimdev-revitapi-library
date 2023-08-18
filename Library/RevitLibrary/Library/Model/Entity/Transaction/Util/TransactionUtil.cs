@@ -39,18 +39,26 @@ namespace Utility
                     var transactionName = config.Name;
                     var onCreating = config.OnCreatingTransaction;
 
-                    using (var transaction = new Transaction(q, transactionName))
+                    using (var transactionGroup = new TransactionGroup(q))
                     {
-                        onCreating?.Invoke(transaction);
-                        transaction.Start();
+                        transactionGroup.Start();
+                        using (var transaction = new Transaction(q, transactionName))
+                        {
+                            onCreating?.Invoke(transaction);
+                            transaction.Start();
 
-                        transactionData.CurrentTransaction = transaction;
-                        action?.Invoke();
+                            transactionData.CurrentTransaction = transaction;
+                            action?.Invoke();
 
-                        transaction.Commit();
+                            if (!transaction.HasEnded())
+                            {
+                                transaction.Commit();
+                            }
+                        }
+
+                        transactionData.CurrentTransaction = null;
+                        transactionGroup.Assimilate();
                     }
-
-                    transactionData.CurrentTransaction = null;
                 }
             };
 

@@ -10,6 +10,11 @@
 	</PropertyGroup>
 	<Import Project="$(SolutionDir)CommonProjectProperties.prop" />
 	<ItemGroup>
+	  <Compile Remove="0.SanitaryConnect\**" />
+	  <EmbeddedResource Remove="0.SanitaryConnect\**" />
+	  <None Remove="0.SanitaryConnect\**" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Remove="Library\Image\addsub.png" />
 		<None Remove="Library\Image\add_2.png" />
 		<None Remove="Library\Image\add_3.png" />

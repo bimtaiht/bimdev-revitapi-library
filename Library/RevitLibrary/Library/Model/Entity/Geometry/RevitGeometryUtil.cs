@@ -15,14 +15,20 @@ namespace Utility
 {
     public static partial class GeometryUtil
     {
-        public static bool IsSameDirection(this Autodesk.Revit.DB.XYZ firstVec, Autodesk.Revit.DB.XYZ secondVec)
+        public static bool IsSameDirection(this Autodesk.Revit.DB.XYZ firstVec, Autodesk.Revit.DB.XYZ secondVec, bool allowTolerate = false)
         {
             Autodesk.Revit.DB.XYZ first = firstVec.Normalize();
             Autodesk.Revit.DB.XYZ second = secondVec.Normalize();
             double dot = first.DotProduct(second);
 
-            var check = dot.IsEqual(1);
-            return dot.IsEqual(1);
+            if (!allowTolerate)
+            {
+                return dot.IsEqual(1);
+            }
+            else
+            {
+                return (dot / 100).IsEqual(0.01);
+            }
         }
 
         public static bool IsSameDirection(this UV firstVec, UV secondVec)
