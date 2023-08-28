@@ -179,12 +179,14 @@ namespace Utility
             var endConnector = pipe.ConnectorManager.Connectors.Cast<Connector>()
                 .Where(conn => conn.IsConnected)
                 .FirstOrDefault(conn => conn.Origin.IsEqual(endPoint));
-            Connector? connect2EndConnector = null;
 
+            FamilyInstance? connect2EndConnector_Owner = null;
             if (endConnector != null)
             {
-                connect2EndConnector = endConnector.AllRefs.Cast<Connector>()
+                var connect2EndConnector = endConnector.AllRefs.Cast<Connector>()
                     .First(conn => conn.Owner.Id != pipe.Id);
+
+                connect2EndConnector_Owner = connect2EndConnector.Owner as FamilyInstance;
                 endConnector.DisconnectFrom(connect2EndConnector);
             }
 
@@ -199,10 +201,15 @@ namespace Utility
             secondPartPipe.LookupParameter("Diameter").Set(pipe.LookupParameter("Diameter").AsDouble());
 
             // set endConnector
-            if (connect2EndConnector != null)
+            if (connect2EndConnector_Owner != null)
             {
                 var secondEndConnector = secondPartPipe.ConnectorManager.Connectors.Cast<Connector>()
                     .First(conn => conn.Origin.IsEqual(endPoint));
+                var secondEndConnector_BasisZ = secondEndConnector.CoordinateSystem.BasisZ;
+
+                var connect2EndConnector = connect2EndConnector_Owner.MEPModel.ConnectorManager.UnusedConnectors.Cast<Connector>()
+                    .First(x => x.CoordinateSystem.BasisZ.IsOppositeDirection(secondEndConnector_BasisZ));
+
                 secondEndConnector.ConnectTo(connect2EndConnector);
             }
 

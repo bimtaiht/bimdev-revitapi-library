@@ -27,56 +27,57 @@ namespace Utility
 
         public static void DoTransaction(this Document q, TransactionConfig config)
         {
+            var action = config.Action;
+
             Action wrapperAction = () =>
             {
-                var action = config.Action;
-                if (transactionData.State == TransactionState.Pending)
-                {
-                    action?.Invoke();
-                }
-                else
-                {
-                    var transactionName = config.Name;
-                    var onCreating = config.OnCreatingTransaction;
+                var transactionName = config.Name;
+                var onCreating = config.OnCreatingTransaction;
 
-                    using (var transactionGroup = new TransactionGroup(q))
+                using (var transactionGroup = new TransactionGroup(q))
+                {
+                    transactionGroup.Start();
+                    using (var transaction = new Transaction(q, transactionName))
                     {
-                        transactionGroup.Start();
-                        using (var transaction = new Transaction(q, transactionName))
+                        onCreating?.Invoke(transaction);
+                        transaction.Start();
+
+                        transactionData.CurrentTransaction = transaction;
+                        action?.Invoke();
+
+                        if (!transaction.HasEnded())
                         {
-                            onCreating?.Invoke(transaction);
-                            transaction.Start();
-
-                            transactionData.CurrentTransaction = transaction;
-                            action?.Invoke();
-
-                            if (!transaction.HasEnded())
-                            {
-                                transaction.Commit();
-                            }
+                            transaction.Commit();
                         }
-
-                        transactionData.CurrentTransaction = null;
-                        transactionGroup.Assimilate();
                     }
+
+                    transactionData.CurrentTransaction = null;
+                    transactionGroup.Assimilate();
                 }
             };
 
-            var isFormShow = formData.IsFormVisible && !formData.IsDialog;
-            if (!isFormShow)
+            if (transactionData.State == TransactionState.Pending)
             {
-                wrapperAction();
+                action?.Invoke();
             }
             else
             {
-                try
+                var isFormShow = formData.IsFormVisible && !formData.IsDialog;
+                if (!isFormShow)
                 {
-                    revitData.ExternalEventHandler.Action = wrapperAction;
-                    revitData.ExternalEvent!.Raise();
+                    wrapperAction();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                    try
+                    {
+                        revitData.ExternalEventHandler.Action = wrapperAction;
+                        revitData.ExternalEvent!.Raise();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                    }
                 }
             }
         }
