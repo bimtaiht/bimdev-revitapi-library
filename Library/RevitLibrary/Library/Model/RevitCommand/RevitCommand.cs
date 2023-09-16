@@ -122,7 +122,7 @@ namespace Model.RevitCommand
             panel.GetPushButton(new PushButtonCofig
             {
                 Name = config.Name,
-                CommandName = this.GetType().FullName,
+                CommandType = this.GetType(),
                 IconName = config.IconPath,
                 ToolTip = config.ToolTip
             });

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -15,7 +16,16 @@ namespace Model.Entity
     {
         public string? Name { get; set; }
 
-        public string? CommandName { get; set; }
+        public Type? CommandType { get; set; }
+
+        private string? commandName;
+        public string CommandName
+        {
+            get => this.commandName ??= this.CommandType!.FullName;
+            set => this.commandName = value;
+        }
+
+        public string AssemblyName => Assembly.GetAssembly(this.CommandType!).Location;
 
         public string? IconName { get; set; }
 

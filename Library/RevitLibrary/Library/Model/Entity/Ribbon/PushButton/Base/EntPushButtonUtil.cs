@@ -24,12 +24,14 @@ namespace Utility
                 {
                     EntPanel = entPanel,
                     Name = name,
+                    AssemblyName = config.AssemblyName,
                     CommandName = config.CommandName,
                     ToolTip = config.ToolTip,
                     IconName = config.IconName
                 };
                 entPushButtons.Add(entPushButton);
             }
+
             return entPushButton;
         }
 
@@ -43,7 +45,7 @@ namespace Utility
             });
         }
 
-        #region Property
+        // property
         public static ImageSource? GetLargeImage(this EntPushButton entPushButton)
         {
             if (entPushButton.IconName == null)
@@ -67,6 +69,5 @@ namespace Utility
 
             return pb;
         }
-        #endregion
     }
 }

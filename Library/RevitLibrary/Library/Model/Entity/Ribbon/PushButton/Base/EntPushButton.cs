@@ -36,7 +36,12 @@ namespace Model.Entity
         private string? iconPath;
         public string IconPath => iconPath ??= Path.Combine(ioData.IconDirectoryPath, IconName);
 
-        public string AssemblyName => ribbonData.AddinFilePath;
+        private string? assemblyName;
+        public string AssemblyName
+        {
+            get => this.assemblyName ??= ribbonData.AddinFilePath;
+            set => this.assemblyName = value;
+        }
 
         public string? CommandName { get; set; }
 
