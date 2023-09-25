@@ -21,13 +21,38 @@ namespace Model.Entity
             set => this.StorageItems = value;
         }
 
+        public virtual T this[object key]
+        {
+            get
+            {
+                if (typeof(T).BaseType.Name.ToLower().Contains("base"))
+                {
+                    return this.Items.FirstOrDefault(x => key.Equals(((dynamic)x).Key));
+                }
+                else
+                {
+                    return default;
+                }
+
+            }
+        }
+
         public int Count => this.Items.Count;
 
         public bool IsReadOnly => false;
 
+        public virtual bool IsAutoAddItemWhenRetrieveIndex => false;
+
+        protected Func<int, T> getItemByIndex;
+        public virtual Func<int, T> GetItemByIndex
+        {
+            get => this.getItemByIndex ??= this.GetGetItemByIndex();
+            set => this.getItemByIndex = value;
+        }
+
         public T this[int index]
         {
-            get => this.Items[index];
+            get => this.GetItemByIndex(index);
             set
             {
                 this.Items[index] = value;
