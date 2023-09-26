@@ -1,5 +1,4 @@
-﻿using SingleData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,8 +11,6 @@ namespace Utility
 {
     public static partial class File_Util
     {
-        private static IOData ioData => IOData.Instance;
-
         /// <summary>
         /// Kiểm tra save file có hợp lệ hay không: Folder có tồn tại ko, FilePath có đang sử dụng ko
         /// </summary>
@@ -23,26 +20,22 @@ namespace Utility
         {
             if (savePath == "" || savePath.Length == 0)
             {
-                MessageBox.Show("Đường dẫn file excel đang để trống!");
-                return false;
+                throw new Exception("Đường dẫn file excel đang để trống!");
             }
             if (!Directory.Exists(Path.GetDirectoryName(savePath)))
             {
-                MessageBox.Show($"Đường dẫn file excel không tồn tại : {savePath}");
-                return false;
+                throw new Exception("Đường dẫn file excel không tồn tại!");
             }
 
             try
             {
                 if (IsFileInUse(savePath))
                 {
-                    MessageBox.Show($"File: {savePath} đang được mở. Bạn hãy đóng file và thử chạy lại.");
-                    return false;
+                    throw new Exception($"File: {savePath} đang được mở. Bạn hãy đóng file và thử chạy lại.");
                 }
             }
-            catch(System.UnauthorizedAccessException ex)
+            catch (System.UnauthorizedAccessException)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
                 return false;
             }
 
@@ -91,17 +84,6 @@ namespace Utility
             return rs;
         }
 
-        public static void SaveResourceToFile(string resourceName, string filePath)
-        {
-            var asm = ioData.Assembly;
-
-            Console.WriteLine(asm.GetManifestResourceNames().CombineString());
-            string file = string.Format($"{asm.GetName().Name}.{resourceName}");
-            var fileStream = asm.GetManifestResourceStream(file);
-
-            SaveStreamToFile(fileStream, filePath);
-        }
-
         /// <summary>
         /// Save steam dữ liệu vào một file path
         /// </summary>
@@ -132,30 +114,22 @@ namespace Utility
         /// <returns></returns>
         public static bool WriteTxtFile(string filePath, string content, bool isDeleteOldFile = true)
         {
-            try
+            if (!File_Util.CheckValidSaveFile(filePath)) return false;
+
+            if (isDeleteOldFile && File.Exists(filePath))
             {
-                if (!File_Util.CheckValidSaveFile(filePath)) return false;
-
-                if (isDeleteOldFile && File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
-                else
-                {
-                    return false;
-                }
-
-                using (var sw = File.CreateText(filePath))
-                {
-                    sw.Write(content);
-                }
-                return true;
+                File.Delete(filePath);
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.ToString());
                 return false;
             }
+
+            using (var sw = File.CreateText(filePath))
+            {
+                sw.Write(content);
+            }
+            return true;
         }
 
         /// <summary>
@@ -179,7 +153,7 @@ namespace Utility
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static string? ReadTxtFile(string filePath)
+        public static string ReadTxtFile(string filePath)
         {
             if (!File.Exists(filePath))
             {
