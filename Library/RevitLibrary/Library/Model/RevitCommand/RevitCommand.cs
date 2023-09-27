@@ -113,19 +113,22 @@ namespace Model.RevitCommand
         // Ribbon
         public virtual RibbonConfig? RibbonConfig { get; set; }
 
-        public void CreateRibbon()
+        public void CreateRibbon(bool? enabled = null)
         {
             var config = this.RibbonConfig!;
             var tab = EntTabUtil.Get(config.Tab!);
             var panel = tab.GetPanel(config.Panel!);
 
-            panel.GetPushButton(new PushButtonCofig
+            panel.GetPushButton(new PushButtonConfig
             {
+                id = config.id,
                 Name = config.Name,
                 CommandType = this.GetType(),
                 IconName = config.IconPath,
-                ToolTip = config.ToolTip
-            });
+                ToolTip = config.ToolTip,
+                Enabled = enabled == null ? config.Enabled : enabled.Value,
+                UseType = config.UseType
+            }) ;
 
             tab.CreateTab();
         }

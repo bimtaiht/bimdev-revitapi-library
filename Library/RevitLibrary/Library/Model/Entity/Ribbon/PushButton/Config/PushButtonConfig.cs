@@ -12,8 +12,15 @@ using Utility;
 
 namespace Model.Entity
 {
-    public class PushButtonCofig
+    public class PushButtonConfig
     {
+        private string? _id;
+        public string id
+        {
+            get => this._id ??= this.Name!;
+            set => this._id = value;
+        }
+
         public string? Name { get; set; }
 
         public Type? CommandType { get; set; }
@@ -30,5 +37,9 @@ namespace Model.Entity
         public string? IconName { get; set; }
 
         public string? ToolTip { get; set; }
+
+        public bool Enabled { get; set; }
+
+        public PushButton_UseType? UseType { get; set; }
     }
 }

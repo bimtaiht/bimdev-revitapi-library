@@ -16,6 +16,13 @@ namespace Model.Entity
         private RibbonData ribbonData => RibbonData.Instance;
         private IOData ioData => IOData.Instance;
 
+        private string? _id;
+        public string id
+        {
+            get => this._id ??= this.Name!;
+            set => this._id = value;
+        }
+
         public string? Name { get; set; }
 
         public EntPanel? EntPanel { get; set; }
@@ -53,5 +60,25 @@ namespace Model.Entity
 
         private PushButton? pushButton;
         public PushButton PushButton => pushButton ??= this.GetPushButton();
+
+        public Action? OnSetEnabled { get; set; }
+
+        private bool? enabled;
+        public bool Enabled
+        {
+            get => this.enabled ??= true;
+            set
+            {
+                this.enabled = value;
+                this.OnSetEnabled?.Invoke();
+            }
+        }
+
+        private List<PushButton_UseType>? useTypes;
+        public List<PushButton_UseType> UseTypes
+        {
+            get => this.useTypes ??= new List<PushButton_UseType> { PushButton_UseType.Common };
+            set => this.useTypes = value;
+        }
     }
 }

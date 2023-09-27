@@ -25,8 +25,8 @@ namespace Model.Entity
 
         public virtual bool IsLast => this.Index == this.CurrentList.Count - 1;
 
-        public T Prev => !this.IsFirst ? this.CurrentList[this.Index - 1] : default;
+        public T? Prev => !this.IsFirst ? this.CurrentList[this.Index - 1] : default;
 
-        public T Next => !this.IsLast ? this.CurrentList[this.Index + 1] : default;
+        public T? Next => !this.IsLast ? this.CurrentList[this.Index + 1] : default;
     }
 }

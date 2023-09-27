@@ -12,7 +12,7 @@ namespace Utility
 {
     public static class EntPushButtonUtil
     {
-        public static EntPushButton GetPushButton(this EntPanel entPanel, PushButtonCofig config)
+        public static EntPushButton GetPushButton(this EntPanel entPanel, PushButtonConfig config)
         {
             var name = config.Name;
 
@@ -23,12 +23,20 @@ namespace Utility
                 entPushButton = new EntPushButton
                 {
                     EntPanel = entPanel,
+                    id = config.id,
                     Name = name,
                     AssemblyName = config.AssemblyName,
                     CommandName = config.CommandName,
                     ToolTip = config.ToolTip,
-                    IconName = config.IconName
+                    IconName = config.IconName,
+                    Enabled = config.Enabled
                 };
+
+                if (config.UseType != null)
+                {
+                    entPushButton.UseTypes = new List<PushButton_UseType> { config.UseType.Value };
+                }
+
                 entPushButtons.Add(entPushButton);
             }
 
@@ -37,7 +45,7 @@ namespace Utility
 
         public static EntPushButton GetPushButton(this EntPanel entPanel, string name, string commandName, string iconName)
         {
-            return GetPushButton(entPanel, new PushButtonCofig
+            return GetPushButton(entPanel, new PushButtonConfig
             {
                 Name = name,
                 CommandName = commandName,
@@ -57,15 +65,18 @@ namespace Utility
             return bitmapImage;
         }
 
-        public static PushButton GetPushButton(this EntPushButton entPushButton)
+        public static PushButton GetPushButton(this EntPushButton q)
         {
-            var ribbonPanel = entPushButton.EntPanel!.RibbonPanel;
+            var ribbonPanel = q.EntPanel!.RibbonPanel;
 
-            var pbd = new PushButtonData(entPushButton.Name, entPushButton.Text, entPushButton.AssemblyName, entPushButton.ClassName);
-            pbd.ToolTip = entPushButton.ToolTip;
+            var pbd = new PushButtonData(q.Name, q.Text, q.AssemblyName, q.ClassName);
+            pbd.ToolTip = q.ToolTip;
 
-            var pb = ribbonPanel.AddItem(pbd) as PushButton;
-            pb!.LargeImage = entPushButton.LargeImage;
+            var pb = (ribbonPanel.AddItem(pbd) as PushButton)!;
+            pb.LargeImage = q.LargeImage;
+            pb.Enabled = q.Enabled;
+
+            q.OnSetEnabled = () => pb.Enabled = q.Enabled;
 
             return pb;
         }

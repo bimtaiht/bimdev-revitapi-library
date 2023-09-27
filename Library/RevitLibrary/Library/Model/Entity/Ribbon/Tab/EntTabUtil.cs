@@ -17,18 +17,18 @@ namespace Utility
 
         public static EntTab Get(string name)
         {
-            var entTabStorageList = ribbonData.EntTabStorageList;
-            var entTab = entTabStorageList.SingleOrDefault(x => x.Name == name);
+            var tabs = ribbonData.Tabs;
+            var tab = tabs.SingleOrDefault(x => x.Name == name);
 
-            if (entTab == null)
+            if (tab == null)
             {
-                entTab = new EntTab { Name = name };
-                entTabStorageList.Add(entTab);
+                tab = new EntTab { Name = name };
+                tabs.Add(tab);
             }
-            return entTab;
+            return tab;
         }
 
-        #region Property
+        // property
         public static void CreateTab(this EntTab entTab)
         {
             var app = entTab.Application;
@@ -43,6 +43,5 @@ namespace Utility
                 entPanel.CreatePanel();
             }
         }
-        #endregion
     }
 }

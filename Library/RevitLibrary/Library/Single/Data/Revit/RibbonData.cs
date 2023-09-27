@@ -24,28 +24,22 @@ namespace SingleData
 
         public UIControlledApplication? Application { get; set; }
 
-        private List<EntTab>? entTabStorageList;
-        public List<EntTab> EntTabStorageList
-        {
-            get => entTabStorageList ??= new List<EntTab>();
-        }
+        private List<EntTab>? tabs;
+        public List<EntTab> Tabs => tabs ??= new List<EntTab>();
 
-        private List<EntPanel>? entPanelStorageList;
-        public List<EntPanel> EntPanelStorageList
+        public IEnumerable<EntPanel> Panels => this.Tabs.Select(x => x.EntPanels).Aggregate((a, b) =>
         {
-            get => entPanelStorageList ??= new List<EntPanel>();
-        }
+            a.AddRange(b);
+            return a;
+        });
 
-        private List<EntPushButton>? entPushButtonStorageList;
-        public List<EntPushButton> EntPushButtonStorageList
+        public IEnumerable<EntPushButton> PushButtons => this.Panels.Select(x => x.EntPushButtons).Aggregate((a, b) =>
         {
-            get => entPushButtonStorageList ??= new List<EntPushButton>();
-        }
+            a.AddRange(b);
+            return a;
+        });
 
         private string? addinFilePath;
-        public string AddinFilePath
-        {
-            get => addinFilePath ??= Assembly.GetExecutingAssembly().Location;
-        }
+        public string AddinFilePath => addinFilePath ??= Assembly.GetExecutingAssembly().Location;
     }
 }

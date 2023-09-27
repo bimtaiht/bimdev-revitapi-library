@@ -239,10 +239,6 @@
 		</Resource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Library\Model\Entity\Ribbon\" />
-	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="copy /Y &quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;$(TargetDir)$(AssemblyName)_$(ConfigurationName).dll&quot;" />
 	</Target>

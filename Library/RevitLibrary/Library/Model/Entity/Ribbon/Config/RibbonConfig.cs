@@ -13,6 +13,13 @@ namespace Model.Entity
 {
     public class RibbonConfig
     {
+        private string? _id;
+        public string id
+        {
+            get => this._id ??= this.Name!;
+            set => this._id = value;
+        }
+
         public string? Tab { get; set; }
 
         public string? Panel { get; set; }
@@ -22,5 +29,9 @@ namespace Model.Entity
         public string? ToolTip { get; set; }
 
         public string? IconPath { get; set; }
+
+        public bool Enabled { get; set; } = true;
+
+        public PushButton_UseType? UseType { get; set; }
     }
 }
