@@ -29,8 +29,8 @@ namespace SingleData
         private Func<Element, bool>? architectInstanceFilter;
         public Func<Element, bool> ArchitectInstanceFilter
         {
-            get => architectInstanceFilter ??= x => (x is Wall && (x.LookupParameter("Structural") == null || x.ParameterAsInteger("Structural") != 1)) ||
-                        (x is Floor && (x.LookupParameter("Structural") == null || x.ParameterAsInteger("Structural") != 1))
+            get => architectInstanceFilter ??= x => (x is Wall && (x.LookupParameter("Structural")?.AsInteger() != 1)) ||
+                        (x is Floor && (x.LookupParameter("Structural")?.AsInteger() != 1))
                         || (x is FamilyInstance &&
                         (x.Category.IsEqual(BuiltInCategory.OST_Doors) || x.Category.IsEqual(BuiltInCategory.OST_Windows)));
         }

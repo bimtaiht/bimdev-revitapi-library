@@ -23,7 +23,7 @@ namespace Utility
             var dc = revitData.Document.Create.NewDetailCurve(view, curve);
             if (styleId != null)
             {
-                dc.ParameterSet("Line Style", styleId);
+                dc.LookupParameter("Line Style").Set(styleId);
             }
             return dc;
         }

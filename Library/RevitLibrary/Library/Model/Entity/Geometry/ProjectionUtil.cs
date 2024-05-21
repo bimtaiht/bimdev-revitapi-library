@@ -27,12 +27,12 @@ namespace Utility
             {
                 if (line.IsPointInLineOrExtend(point)) return point;
             }
-            XYZ vecL = line.Direction;
+            var vecL = line.Direction;
             var origin = line.Origin;
-            XYZ vecP = point - origin;
-            Plane p = Plane.CreateByOriginAndBasis
+            var vecP = point - origin;
+            var plane = Plane.CreateByOriginAndBasis
                 (origin, vecL.Normalize(), vecL.CrossProduct(vecP).Normalize());
-            return GetProjectPoint(p, point);
+            return GetProjectPoint(plane, point);
         }
 
         /// <summary>
@@ -44,11 +44,11 @@ namespace Utility
         public static XYZ GetProjectPoint(this Curve line, XYZ point)
         {
             if (line.Convert2Line().IsPointInLineOrExtend(point)) return point;
-            XYZ vecL = line.GetEndPoint(1) - line.GetEndPoint(0);
-            XYZ vecP = point - line.GetEndPoint(0);
-            Plane p = Plane.CreateByOriginAndBasis
+            var vecL = line.GetEndPoint(1) - line.GetEndPoint(0);
+            var vecP = point - line.GetEndPoint(0);
+            var plane = Plane.CreateByOriginAndBasis
                 (line.GetEndPoint(0), vecL.Normalize(), vecL.CrossProduct(vecP).Normalize());
-            return GetProjectPoint(p, point);
+            return GetProjectPoint(plane, point);
         }
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace Utility
         /// <returns></returns>
         public static XYZ GetProjectPoint(this Plane plane, XYZ point)
         {
-            double d = point.DistanceTo(plane);
-            XYZ q = point + plane.Normal * d;
+            var d = point.DistanceTo(plane);
+            var q = point + plane.Normal * d;
             return plane.IsContains(q) ? q : point + plane.Normal * -d;
         }
 

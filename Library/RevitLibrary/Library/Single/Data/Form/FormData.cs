@@ -24,6 +24,8 @@ namespace SingleData
 
         public bool IsDialog { get; set; }
 
+        public bool IsPublish { get; set; }
+
         public static void Dispose()
         {
             Instance = null;

@@ -154,7 +154,7 @@ namespace Utility
             return cs;
         }
 
-        public static XYZ? GetIntersectionPoint2D(Line l1, Line l2)
+        public static XYZ? GetIntersectionPoint2D(this Line l1, Line l2)
         {
             XYZ p1 = l1.GetEndPoint(0), p2 = l1.GetEndPoint(1);
             XYZ p3 = l2.GetEndPoint(0), p4 = l2.GetEndPoint(1);
@@ -168,18 +168,12 @@ namespace Utility
             // Solve for t1 and t2
             double denominator = (dy12 * dx34 - dx12 * dy34);
 
-            double t1 =
-                ((p1.X - p3.X) * dy34 + (p3.Y - p1.Y) * dx34)
-                    / denominator;
+            double t1 = ((p1.X - p3.X) * dy34 + (p3.Y - p1.Y) * dx34) / denominator;
             if (double.IsInfinity(t1))
             {
                 // Parallel
                 return null;
             }
-
-            double t2 =
-                ((p3.X - p1.X) * dy12 + (p1.Y - p3.Y) * dx12)
-                    / -denominator;
 
             // Find the point of intersection.
             return new XYZ(p1.X + dx12 * t1, p1.Y + dy12 * t1, p1.Z);
@@ -435,9 +429,11 @@ namespace Utility
         /// <returns></returns>
         public static bool IsPointInLineOrExtend(this Line line, XYZ point)
         {
-            if (point.IsEqual(line.GetEndPoint(0)) || point.IsEqual(line.GetEndPoint(1)))
+            var startPoint = line.GetEndPoint(0);
+            var endPoint = line.GetEndPoint(1);
+            if (point.IsEqual(startPoint) || point.IsEqual(endPoint))
                 return true;
-            if ((point - line.GetEndPoint(0)).IsParallel(point - line.GetEndPoint(1)))
+            if ((point - startPoint).IsParallel(line.Direction))
                 return true;
             return false;
         }

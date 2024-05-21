@@ -11,6 +11,7 @@ using Utility;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.ApplicationServices;
 using Model.Entity;
+using System.Windows;
 
 namespace Model.RevitCommand
 {
@@ -36,10 +37,13 @@ namespace Model.RevitCommand
         protected virtual bool HasExternalEvent => false;
         protected virtual bool IsExecute => true;
         protected virtual bool IsThrowWhenCatchException => false;
+        protected virtual bool IsPublish => false;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             revitData.UIApplication = commandData.Application;
+            formData.IsPublish = IsPublish;
+
             PreExecute();
 
             try
@@ -51,24 +55,31 @@ namespace Model.RevitCommand
             {
                 RevitDataUtil.Dispose();
 
-                var mess = $"{ex.Message}\n{ex.StackTrace}";
-                try
+                if (IsPublish)
                 {
-                    File_Util.WriteTxtFileAndOpen(ioData.ErrorFilePath, mess);
-                }
-                catch
-                {
-                    // Xử lý để bắt lỗi trên máy người dùng, khi không thể viết file lỗi trên notepad
-                    System.Windows.MessageBox.Show(mess, "Lỗi xảy ra!");
-                }
-
-                if (this.IsThrowWhenCatchException)
-                {
-                    throw;
+                    MessageBox.Show("Lỗi xảy ra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return Result.Succeeded;
                 }
                 else
                 {
-                    return Result.Succeeded;
+                    var mess = $"{ex.GetType().Name}\n{ex.Message}\n{ex.StackTrace}";
+                    try
+                    {
+                        File_Util.WriteTxtFileAndOpen(ioData.ErrorFilePath, mess);
+                    }
+                    catch
+                    {
+                        // Xử lý để bắt lỗi trên máy người dùng, khi không thể viết file lỗi trên notepad
+                        System.Windows.MessageBox.Show(mess, "Lỗi xảy ra!");
+                    }
+                    if (this.IsThrowWhenCatchException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        return Result.Succeeded;
+                    }
                 }
             }
 
@@ -128,7 +139,7 @@ namespace Model.RevitCommand
                 ToolTip = config.ToolTip,
                 Enabled = enabled == null ? config.Enabled : enabled.Value,
                 UseType = config.UseType
-            }) ;
+            });
 
             tab.CreateTab();
         }

@@ -13,6 +13,8 @@ namespace Model.Entity
 
         public Action<Transaction>? OnCreatingTransaction { get; set; }
 
-        public Action? Action { get; set; }
+        public Action<Transaction>? Action { get; set; }
+
+        public Action? OnFinish { get; set; }
     }
 }

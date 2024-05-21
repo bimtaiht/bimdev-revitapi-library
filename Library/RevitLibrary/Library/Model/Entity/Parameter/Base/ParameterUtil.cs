@@ -1,74 +1,57 @@
 ﻿using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Utility
 {
     public static class ParameterUtil
     {
-        // Method
-        public static double? ParameterAsDouble(this Autodesk.Revit.DB.Element elem, string paramName)
+        public static void CopyParameterValue(this Parameter targetParameter, Parameter sourceParameter)
         {
-            return elem.LookupParameter(paramName)?.AsDouble();
+            targetParameter.SetValue(sourceParameter.GetValue());
         }
 
-        public static int? ParameterAsInteger(this Autodesk.Revit.DB.Element elem, string paramName)
+        public static void CopyParameterValue(this Element targetElement, Element sourceElement, BuiltInParameter builtInParameter)
         {
-            return elem.LookupParameter(paramName)?.AsInteger();
+            targetElement.get_Parameter(builtInParameter).CopyParameterValue(sourceElement.get_Parameter(builtInParameter));
         }
 
-        public static string? ParameterAsString(this Autodesk.Revit.DB.Element elem, string paramName)
+        public static void CopyParameterValue(this Element targetElement, Element sourceElement, string parameterName)
         {
-            return elem.LookupParameter(paramName)?.AsString();
+            targetElement.LookupParameter(parameterName).CopyParameterValue(sourceElement.LookupParameter(parameterName));
         }
 
-        public static Autodesk.Revit.DB.Element? ParameterAsElement(this Autodesk.Revit.DB.Element elem, string paramName)
+        public static void SetValue(this Parameter parameter, object? value)
         {
-            var param = elem.LookupParameter(paramName);
-            if (param == null)
+            if (parameter.IsReadOnly) return;
+            if (value is null) return;
+
+            switch (parameter.StorageType)
             {
-                return null;
-            }
-
-            var elemId = param.AsElementId();
-            if (elemId == null)
-            {
-                return null;
-            }
-            return elemId.GetElement();
-        }
-
-        public static string? ParameterAsValueString(this Autodesk.Revit.DB.Element elem, string paramName)
-        {
-            var param = elem.LookupParameter(paramName);
-            if (param == null) return null;
-
-            switch (param.StorageType)
-            {
+                case StorageType.Integer:
+                    parameter.Set((int)value);
+                    break;
+                case StorageType.Double:
+                    parameter.Set((double)value);
+                    break;
                 case StorageType.String:
-                    return param.AsString();
-                default:
-                    return param.AsValueString();
+                    parameter.Set((string)value);
+                    break;
+                case StorageType.ElementId:
+                    parameter.Set((ElementId)value);
+                    break;
             }
         }
 
-        public static bool ParameterSet(this Autodesk.Revit.DB.Element elem, string paramName, object value)
+        public static object? GetValue(this Parameter parameter)
         {
-            var param = elem.LookupParameter(paramName);
-            if (param == null)
+            return parameter.StorageType switch
             {
-                return false;
-            }
-
-            if (value is int) elem.LookupParameter(paramName).Set((int)value);
-            if (value is double) elem.LookupParameter(paramName).Set((double)value);
-            if (value is string) elem.LookupParameter(paramName).Set((string)value);
-            if (value is Autodesk.Revit.DB.Element) elem.LookupParameter(paramName).Set(((Autodesk.Revit.DB.Element)value).Id);
-            if (value is Autodesk.Revit.DB.ElementId) elem.LookupParameter(paramName).Set((Autodesk.Revit.DB.ElementId)value);
-            return true;
+                StorageType.String => parameter.AsString(),
+                StorageType.Integer => parameter.AsInteger(),
+                StorageType.Double => parameter.AsDouble(),
+                StorageType.ElementId => parameter.AsElementId(),
+                _ => null,
+            };
         }
 
         public static void CopyAllValues(Element sourceElement, Element targetElement)
@@ -88,8 +71,6 @@ namespace Utility
                 }
                 return !x.IsReadOnly;
             }).ToList();
-
-            //var alltargetParameters = targetElement.ParametersMap.Cast<Parameter>();
 
             Parameter? needAddParameter = null;
             var targetParameters = targetElement.ParametersMap.Cast<Parameter>().Where(x =>
@@ -130,21 +111,7 @@ namespace Utility
             foreach (var parameter in targetParameters)
             {
                 var sourceParamater = sourceParameters.First(x => x.Id == parameter.Id);
-                switch (sourceParamater.StorageType)
-                {
-                    case StorageType.Integer:
-                        parameter.Set(sourceParamater.AsInteger());
-                        break;
-                    case StorageType.Double:
-                        parameter.Set(sourceParamater.AsDouble());
-                        break;
-                    case StorageType.String:
-                        parameter.Set(sourceParamater.AsString());
-                        break;
-                    case StorageType.ElementId:
-                        parameter.Set(sourceParamater.AsElementId());
-                        break;
-                }
+                parameter.SetValue(sourceParamater);
             }
         }
     }

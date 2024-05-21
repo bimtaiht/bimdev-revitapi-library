@@ -16,12 +16,13 @@ namespace Utility
         private static TransactionData transactionData => TransactionData.Instance;
         private static FormData formData => FormData.Instance;
 
-        public static void DoTransaction(this Document q, string transactionName, Action action)
+        public static void DoTransaction(this Document q, string transactionName, Action<Transaction> action, Action? onFinish = null)
         {
             q.DoTransaction(new TransactionConfig
             {
                 Name = transactionName,
-                Action = action
+                Action = action,
+                OnFinish = onFinish,
             });
         }
 
@@ -43,7 +44,7 @@ namespace Utility
                         transaction.Start();
 
                         transactionData.CurrentTransaction = transaction;
-                        action?.Invoke();
+                        action?.Invoke(transaction);
 
                         if (!transaction.HasEnded())
                         {
@@ -53,12 +54,14 @@ namespace Utility
 
                     transactionData.CurrentTransaction = null;
                     transactionGroup.Assimilate();
+
+                    config.OnFinish?.Invoke();
                 }
             };
 
             if (transactionData.State == TransactionState.Pending)
             {
-                action?.Invoke();
+                action?.Invoke(transactionData.CurrentTransaction!);
             }
             else
             {

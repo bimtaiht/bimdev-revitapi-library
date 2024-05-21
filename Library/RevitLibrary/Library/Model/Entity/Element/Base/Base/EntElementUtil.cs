@@ -32,7 +32,7 @@ namespace Utility
 
             else if (element is Wall)
             {
-                var isStructural = element.LookupParameter("Structural") != null && element.ParameterAsInteger("Structural") == 1;
+                var isStructural = element.LookupParameter("Structural")?.AsInteger() == 1;
                 if (isStructural)
                 {
                     entElem = new EntStrWall { RevitElement = element };
@@ -44,7 +44,7 @@ namespace Utility
             }
             else if (element is Floor)
             {
-                var isStructural = element.LookupParameter("Structural") != null && element.ParameterAsInteger("Structural") == 1;
+                var isStructural = element.LookupParameter("Structural")?.AsInteger() == 1;
                 if (isStructural)
                 {
                     var revitCate = element.Category;

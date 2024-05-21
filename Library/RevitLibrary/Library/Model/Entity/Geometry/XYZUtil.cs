@@ -47,5 +47,17 @@ namespace Utility
         {
             return new XYZ(pnt.X, pnt.Y, 0);
         }
+
+        public static XYZ Translate(this XYZ point, XYZ planeVector, double slope)
+        {
+            var _planeVector = new XYZ(planeVector.X, planeVector.Y, 0);
+            return point + _planeVector + XYZ.BasisZ * planeVector.GetLength() * slope;
+        }
+
+        public static XYZ Sloping(this XYZ point, XYZ refrencePoint, double slope)
+        {
+            var deltaZ = refrencePoint.Z - point.Z;
+            return point + XYZ.BasisZ * (deltaZ + (refrencePoint - point).GetLength() * slope);
+        }
     }
 }

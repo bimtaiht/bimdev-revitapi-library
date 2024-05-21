@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Windows;
 
 namespace Utility
 {
     public static class FormUtil
     {
         private static FormData formData => FormData.Instance;
+        private static IOData ioData => IOData.Instance;
 
-        private static void Dispose_onFormClosed(object sender, EventArgs e)
+        private static void DisposeData()
         {
             try
             {
@@ -23,10 +25,15 @@ namespace Utility
             }
             catch
             {
-
+                // ignore
             }
 
             RevitDataUtil.Dispose();
+        }
+
+        private static void OnFormClosed(object sender, EventArgs e)
+        {
+            DisposeData();
         }
 
         public static void Show(this System.Windows.Window form, bool isDialog)
@@ -44,14 +51,14 @@ namespace Utility
                 if (!formData.IsDisposeOnClosed)
                 {
                     formData.IsDisposeOnClosed = true;
-                    form.Closed += Dispose_onFormClosed;
+                    form.Closed += OnFormClosed;
                 }
 
                 form.Show();
             }
         }
 
-        public static void Do(this System.Windows.Window form, Action action, bool isHaveTransaction = false)
+        public static void Do(this System.Windows.Window form, Action action)
         {
             if (formData.IsDialog)
             {
@@ -63,7 +70,31 @@ namespace Utility
             }
             else
             {
-                action();
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    if (formData.IsPublish)
+                    {
+                        MessageBox.Show("Lỗi xảy ra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        var mess = $"{ex.GetType().Name}\n{ex.Message}\n{ex.StackTrace}";
+                        try
+                        {
+                            File_Util.WriteTxtFileAndOpen(ioData.ErrorFilePath, mess);
+                        }
+                        catch
+                        {
+                            // ignore
+                        }
+                    }
+
+                    form.Close();
+                }
             }
         }
     }

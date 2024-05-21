@@ -97,9 +97,9 @@ namespace SingleData
             {
                 if (structuralInstanceFilter == null)
                 {
-                    structuralInstanceFilter = x => (x is Wall && (x.LookupParameter("Structural") != null && x.ParameterAsInteger("Structural") == 1))
+                    structuralInstanceFilter = x => (x is Wall && x.LookupParameter("Structural") is { } parameter && parameter.AsInteger() == 1)
                             || x is Stairs ||
-                            (x is Floor && (x.LookupParameter("Structural") != null && x.ParameterAsInteger("Structural") == 1)) ||
+                            (x is Floor && (x.LookupParameter("Structural")?.AsInteger() == 1)) ||
                             (x is FamilyInstance &&
                             (x.Category.IsEqual(BuiltInCategory.OST_StructuralColumns) ||
                             x.Category.IsEqual(BuiltInCategory.OST_StructuralFraming) ||
@@ -108,6 +108,7 @@ namespace SingleData
                             x.Category.IsEqual(BuiltInCategory.OST_Stairs) ||
                             x.Category.IsEqual(BuiltInCategory.OST_GenericModel)));
                 }
+
                 return structuralInstanceFilter;
             }
         }
